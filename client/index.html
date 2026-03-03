@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CodeQuest</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-brand">
+        <span class="header-logo">⚔️</span>
+        <h1>CodeQuest</h1>
+      </div>
+      <nav class="app-tabs">
+        <button id="tabMissions" class="app-tab active">🎯 Missions</button>
+        <button id="tabCours"    class="app-tab">📚 Cours</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== VUE MISSIONS ===== -->
+  <main id="viewMissions" class="layout">
+    <aside class="sidebar">
+      <h3>Tracks</h3>
+      <ul id="tracks" class="tracks">
+        <li data-track="html"    class="active">🌐 HTML</li>
+        <li data-track="css">🎨 CSS</li>
+        <li data-track="js">⚡ JS</li>
+        <li data-track="ts">🔷 TS</li>
+        <li data-track="angular">🔺 Angular</li>
+        <li data-track="node">🟢 Node</li>
+      </ul>
+      <h3>Missions</h3>
+      <ul id="missionsList" class="missions"></ul>
+    </aside>
+
+    <section class="card">
+      <h2 id="title">Choisis une mission</h2>
+      <pre id="statement" class="statement"></pre>
+      <label for="code" class="label">Ton code :</label>
+      <textarea id="code" class="editor"></textarea>
+      <div class="actions">
+        <button id="btnTest" class="btn">▶ Tester</button>
+      </div>
+      <div id="result" class="result"></div>
+    </section>
+  </main>
+
+  <!-- ===== VUE COURS ===== -->
+  <main id="viewCours" class="layout hidden">
+    <aside class="sidebar">
+      <h3>Tracks</h3>
+      <ul id="courseTracks" class="tracks">
+        <li data-course="html"    class="active">🌐 HTML</li>
+        <li data-course="css">🎨 CSS</li>
+        <li data-course="js">⚡ JavaScript</li>
+        <li data-course="angular">🔺 Angular</li>
+        <li data-course="node">🟢 Node.js</li>
+      </ul>
+      <h3>Chapitres</h3>
+      <ul id="chaptersList" class="missions"></ul>
+    </aside>
+
+    <section class="course-content card">
+      <div id="courseBody">
+        <div class="course-welcome">
+          <h2>Bienvenue dans les cours 📚</h2>
+          <p>Sélectionne un chapitre dans la barre latérale pour commencer à apprendre.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
