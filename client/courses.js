@@ -667,218 +667,467 @@ div  { display: block; }        /* prend toute la largeur */
       {
         title: "Variables, types et opérateurs",
         body: `
-<p>JavaScript est un langage <strong>dynamiquement typé</strong> : une variable peut changer de type. ES6 introduit <code>let</code> et <code>const</code> qui remplacent <code>var</code>.</p>
-<h4>Déclarations</h4>
+<p>Une <strong>variable</strong> est une boîte qui stocke une valeur. En JavaScript moderne (ES6+), on utilise <code>const</code> et <code>let</code> — oublie <code>var</code>.</p>
+
+<h4>const vs let — laquelle choisir ?</h4>
 <ul>
-  <li><code>const</code> : valeur non réassignable (préférer par défaut)</li>
-  <li><code>let</code> : réassignable, scope de bloc <code>{ }</code></li>
-  <li><code>var</code> : scope de fonction, éviter (hoisting problématique)</li>
+  <li><code>const</code> → la valeur <strong>ne changera pas</strong> (à préférer par défaut)</li>
+  <li><code>let</code> → la valeur peut être <strong>réassignée</strong> plus tard</li>
+  <li><code>var</code> → <strong>à éviter</strong> : comportement imprévisible (hoisting, pas de scope de bloc)</li>
 </ul>
-<h4>Les types primitifs</h4>
+<p>Conseil : commence toujours par <code>const</code>. Si tu dois réaffecter, change en <code>let</code>.</p>
+
+<h4>Les types de données</h4>
+<p>JavaScript a 7 types primitifs + le type <code>object</code> :</p>
 <ul>
-  <li><code>string</code> : "texte" ou 'texte' ou \`template\`</li>
-  <li><code>number</code> : 42, 3.14, NaN, Infinity</li>
-  <li><code>boolean</code> : true / false</li>
-  <li><code>null</code> : absence intentionnelle de valeur</li>
-  <li><code>undefined</code> : valeur non assignée</li>
-  <li><code>bigint</code> : 9007199254740992n</li>
-  <li><code>symbol</code> : identifiant unique</li>
+  <li><code>string</code> — du texte : <code>"bonjour"</code>, <code>'world'</code>, <code>\`template\`</code></li>
+  <li><code>number</code> — un nombre : <code>42</code>, <code>3.14</code>, <code>-7</code></li>
+  <li><code>boolean</code> — vrai ou faux : <code>true</code> / <code>false</code></li>
+  <li><code>null</code> — absence <strong>intentionnelle</strong> de valeur (tu le mets toi-même)</li>
+  <li><code>undefined</code> — valeur <strong>non assignée</strong> (JS la met automatiquement)</li>
+  <li><code>bigint</code> — très grands entiers : <code>9007199254740992n</code></li>
+  <li><code>symbol</code> — identifiant unique (avancé)</li>
 </ul>
-<h4>Égalité stricte vs abstraite</h4>
-<p>Toujours utiliser <code>===</code> (compare valeur ET type). <code>==</code> fait une conversion de type implicite qui cause des bugs subtils.</p>`,
-        code: `// Déclarations
-const PI = 3.14159;
-let score = 0;
-score = 42; // ok
 
-// Types
-const name    = "Pierre";          // string
-const age     = 21;                 // number
-const isAdmin = false;              // boolean
-const nothing = null;               // null
-let   notSet;                       // undefined
+<h4>Les template literals — écrire du texte avec des variables</h4>
+<p>Utilise les backticks <code>\`\`</code> pour insérer des variables directement dans une chaîne avec <code>\${variable}</code>. Beaucoup plus lisible que les concaténations avec <code>+</code>.</p>
 
-// Template literals (ES6)
-const msg = \`Bonjour \${name}, tu as \${age} ans !\`;
+<h4>Égalité stricte === vs abstraite ==</h4>
+<p><strong>Toujours utiliser <code>===</code></strong> — il compare la valeur ET le type. L'opérateur <code>==</code> fait des conversions implicites surprenantes qui causent des bugs.</p>
 
-// typeof
-console.log(typeof name);   // "string"
-console.log(typeof age);    // "number"
-console.log(typeof null);   // "object" ← bug historique JS !
+<h4>Valeurs "falsy"</h4>
+<p>Ces valeurs sont considérées comme <code>false</code> dans un <code>if</code> : <code>false</code>, <code>0</code>, <code>""</code>, <code>null</code>, <code>undefined</code>, <code>NaN</code>. Tout le reste est <em>truthy</em> (même un tableau vide <code>[]</code> !).</p>`,
+        code: `// ──────────────────────────────────────
+// Déclarations
+// ──────────────────────────────────────
+const PI    = 3.14159;  // jamais réassigné → const
+let   score = 0;        // sera modifié plus tard → let
 
-// Égalité stricte
-console.log(0   == false);  // true  ← piège !
-console.log(0  === false);  // false ← correct
-console.log("" ==  false);  // true  ← piège !
+score = 42; // ✅ ok car let
+// PI = 3;  // ❌ Erreur ! const ne peut pas être réassigné
 
-// Valeurs "falsy"
-// false, 0, "", null, undefined, NaN → false en contexte booléen
-if (!0)     console.log("0 est falsy");
-if (![])    console.log("tableau vide est TOUJOURS truthy !");`
+// ──────────────────────────────────────
+// Les différents types
+// ──────────────────────────────────────
+const prenom    = "Pierre";         // string
+const age       = 21;               // number
+const estAdmin  = false;            // boolean
+const rien      = null;             // null (intentionnel)
+let   nonDefini;                    // undefined (automatique)
+
+// typeof — connaître le type d'une valeur
+console.log(typeof prenom);   // "string"
+console.log(typeof age);      // "number"
+console.log(typeof estAdmin); // "boolean"
+console.log(typeof rien);     // "object" ← BUG HISTORIQUE de JS, null n'est pas un objet !
+console.log(typeof nonDefini);// "undefined"
+
+// ──────────────────────────────────────
+// Template literals — la bonne façon d'écrire du texte
+// ──────────────────────────────────────
+
+// ❌ Ancienne façon (difficile à lire)
+const msg1 = "Bonjour " + prenom + ", tu as " + age + " ans.";
+
+// ✅ Nouvelle façon avec backticks
+const msg2 = \`Bonjour \${prenom}, tu as \${age} ans.\`;
+
+// On peut même mettre des expressions à l'intérieur
+const msg3 = \`Dans 10 ans tu auras \${age + 10} ans.\`;
+
+console.log(msg2); // "Bonjour Pierre, tu as 21 ans."
+console.log(msg3); // "Dans 10 ans tu auras 31 ans."
+
+// ──────────────────────────────────────
+// === vs == — toujours utiliser ===
+// ──────────────────────────────────────
+console.log(0   ==  false);  // true  ← PIÈGE ! JS convertit 0 en false
+console.log(0  ===  false);  // false ← correct, ce sont des types différents
+console.log("" ==  false);   // true  ← PIÈGE !
+console.log("" === false);   // false ← correct
+
+// Conversions implicites absurdes de ==
+console.log(null  == undefined);  // true  ← bizarre
+console.log(null === undefined);  // false ← logique
+
+// ──────────────────────────────────────
+// Valeurs "falsy" — ce qui est faux dans un if
+// ──────────────────────────────────────
+if (!0)         console.log("0 est falsy");
+if (!"")        console.log("chaîne vide est falsy");
+if (!null)      console.log("null est falsy");
+if (!undefined) console.log("undefined est falsy");
+
+// ATTENTION : ces valeurs sont TOUJOURS truthy :
+if ([])  console.log("tableau vide [] est TRUTHY !");
+if ({})  console.log("objet vide {} est TRUTHY !");
+if ("0") console.log('la chaîne "0" est TRUTHY !');`
       },
       {
         title: "Fonctions & Arrow Functions",
         body: `
-<p>Les fonctions sont des <strong>citoyens de première classe</strong> en JS : on peut les stocker dans des variables, les passer en argument, les retourner.</p>
-<h4>Déclarations de fonction</h4>
+<p>Une <strong>fonction</strong> est un bloc de code réutilisable. En JavaScript, les fonctions sont des valeurs comme les autres : on peut les stocker dans une variable, les passer en argument, les retourner d'une autre fonction.</p>
+
+<h4>3 façons d'écrire une fonction</h4>
 <ul>
-  <li><strong>Déclaration</strong> (<code>function</code>) : hoistée, disponible avant sa déclaration dans le code</li>
-  <li><strong>Expression</strong> (<code>const f = function</code>) : non hoistée</li>
-  <li><strong>Arrow function</strong> (<code>=></code>) : syntaxe concise, <code>this</code> lexical (pas de propre <code>this</code>)</li>
+  <li><strong>Déclaration</strong> <code>function nom() {}</code> — hoistée : disponible AVANT sa définition dans le fichier</li>
+  <li><strong>Expression</strong> <code>const f = function() {}</code> — non hoistée, traitée comme une variable</li>
+  <li><strong>Arrow function</strong> <code>const f = () => {}</code> — syntaxe courte, et n'a pas son propre <code>this</code> (important en Angular/React)</li>
 </ul>
+
+<h4>Arrow function — raccourcis</h4>
+<ul>
+  <li>Un seul paramètre : les parenthèses sont optionnelles → <code>x => x * 2</code></li>
+  <li>Corps sur une ligne : pas besoin de <code>return</code> ni d'accolades → <code>(a, b) => a + b</code></li>
+  <li>Retourner un objet sur une ligne : entoure-le de parenthèses → <code>id => ({ id, label: "x" })</code></li>
+</ul>
+
 <h4>Paramètres avancés</h4>
 <ul>
-  <li>Valeur par défaut : <code>function f(x = 0)</code></li>
-  <li>Rest parameters : <code>function f(...args)</code></li>
-  <li>Destructuration : <code>function f({ name, age })</code></li>
+  <li><strong>Valeur par défaut</strong> : <code>function f(x = 0)</code> — si x n'est pas fourni, vaut 0</li>
+  <li><strong>Rest parameters</strong> : <code>function f(...args)</code> — capture tous les arguments dans un tableau</li>
+  <li><strong>Déstructuration</strong> : <code>function f({ name, age })</code> — extrait directement les propriétés d'un objet passé en argument</li>
 </ul>
-<h4>Closures</h4>
-<p>Une fonction <strong>capture</strong> les variables de son scope parent. Cela crée une fermeture (closure) — l'une des fonctionnalités les plus puissantes de JS.</p>`,
-        code: `// Déclaration (hoistée)
-function add(a, b) {
+
+<h4>Closures — qu'est-ce que c'est ?</h4>
+<p>Une fonction a accès aux variables des scopes qui l'entourent, même après que ce scope soit terminé. C'est une <strong>fermeture</strong> (closure). Exemple classique : un compteur. La fonction interne "se souvient" de la variable <code>count</code> même si <code>createCounter()</code> a fini de s'exécuter.</p>`,
+        code: `// ──────────────────────────────────────
+// 3 façons d'écrire une fonction
+// ──────────────────────────────────────
+
+// 1. Déclaration — disponible avant cette ligne grâce au hoisting
+function additionner(a, b) {
   return a + b;
 }
 
-// Arrow function — raccourci
-const add = (a, b) => a + b;
-
-// Arrow avec corps
-const greet = (name) => {
-  const msg = \`Bonjour \${name}\`;
-  return msg;
+// 2. Expression — stockée dans une variable
+const multiplier = function(a, b) {
+  return a * b;
 };
 
+// 3. Arrow function
+const soustraire = (a, b) => a - b;
+
+// Appel identique pour les 3
+additionner(3, 4);  // 7
+multiplier(3, 4);   // 12
+soustraire(10, 4);  // 6
+
+// ──────────────────────────────────────
+// Arrow functions — les raccourcis
+// ──────────────────────────────────────
+
+// Corps sur une ligne → return implicite
+const double = x => x * 2;
+const somme  = (a, b) => a + b;
+
+// Corps multi-lignes → accolades et return explicite
+const saluer = (prenom) => {
+  const message = \`Bonjour \${prenom} !\`;
+  return message;
+};
+
+// Retourner un objet sur une ligne → entourer de ()
+const creerUser = (id, nom) => ({
+  id:  id,
+  nom: nom
+});
+
+// ──────────────────────────────────────
+// Paramètres avancés
+// ──────────────────────────────────────
+
 // Valeur par défaut
-const multiply = (a, b = 1) => a * b;
-multiply(5);    // 5
-multiply(5, 3); // 15
+const puissance = (base, exposant = 2) => base ** exposant;
+puissance(3);    // 9  (exposant vaut 2 par défaut)
+puissance(3, 3); // 27
 
-// Rest parameters
-const sum = (...nums) => nums.reduce((acc, n) => acc + n, 0);
-sum(1, 2, 3, 4); // 10
+// Rest parameters — capture tout dans un tableau
+const additionnerTout = (...nombres) => {
+  return nombres.reduce((total, n) => total + n, 0);
+};
+additionnerTout(1, 2, 3, 4, 5); // 15
 
-// Closure — compteur encapsulé
-function createCounter() {
-  let count = 0;
+// Déstructuration dans les paramètres
+function afficherProfil({ nom, age, role = "inconnu" }) {
+  console.log(\`\${nom}, \${age} ans, rôle : \${role}\`);
+}
+afficherProfil({ nom: "Alice", age: 28, role: "admin" });
+// "Alice, 28 ans, rôle : admin"
+
+// ──────────────────────────────────────
+// Closure — exemple concret : compteur
+// ──────────────────────────────────────
+function creerCompteur() {
+  let count = 0; // cette variable est "capturée" par les fonctions internes
+
   return {
-    increment: () => ++count,
-    decrement: () => --count,
-    value:     () => count,
+    incrementer: () => {
+      count = count + 1;
+      return count;
+    },
+    decrementer: () => {
+      count = count - 1;
+      return count;
+    },
+    valeur: () => count
   };
 }
-const counter = createCounter();
-counter.increment(); // 1
-counter.increment(); // 2
-counter.value();     // 2`
+
+const compteur = creerCompteur();
+compteur.incrementer(); // 1
+compteur.incrementer(); // 2
+compteur.incrementer(); // 3
+compteur.decrementer(); // 2
+compteur.valeur();      // 2
+// Note : count est inaccessible de l'extérieur — c'est de l'encapsulation !`
       },
       {
         title: "Tableaux et méthodes ES6+",
         body: `
-<p>Les méthodes de tableau modernes permettent un style de programmation <strong>fonctionnel</strong>, lisible et sans mutation. Les immuables sont préférables pour éviter les bugs.</p>
-<h4>Méthodes essentielles</h4>
+<p>Un <strong>tableau</strong> est une liste ordonnée de valeurs. Les méthodes modernes permettent de manipuler ces listes de façon claire et sans modifier le tableau original.</p>
+
+<h4>Les méthodes essentielles — avec une analogie</h4>
 <ul>
-  <li><code>map(fn)</code> : transforme chaque élément → nouveau tableau de même longueur</li>
-  <li><code>filter(fn)</code> : garde les éléments qui passent le test → tableau plus court ou égal</li>
-  <li><code>reduce(fn, init)</code> : agrège en une valeur (somme, objet…)</li>
-  <li><code>find(fn)</code> : premier élément qui correspond (ou <code>undefined</code>)</li>
-  <li><code>findIndex(fn)</code> : index du premier élément qui correspond</li>
-  <li><code>some(fn)</code> : true si au moins un passe le test</li>
-  <li><code>every(fn)</code> : true si tous passent le test</li>
-  <li><code>includes(val)</code> : true si la valeur est présente</li>
-  <li><code>flat(depth)</code> : aplatit les tableaux imbriqués</li>
-  <li><code>flatMap(fn)</code> : map + flat(1)</li>
-</ul>`,
-        code: `const users = [
-  { id: 1, name: "Alice", age: 28, active: true  },
-  { id: 2, name: "Bob",   age: 17, active: false },
-  { id: 3, name: "Clara", age: 32, active: true  },
+  <li><code>map(fn)</code> — <em>"Transforme chaque élément"</em> → retourne un nouveau tableau de la même longueur. Comme une chaîne de montage qui modifie chaque pièce.</li>
+  <li><code>filter(fn)</code> — <em>"Garde seulement ceux qui passent le test"</em> → retourne un sous-ensemble. Comme un filtre à café.</li>
+  <li><code>reduce(fn, init)</code> — <em>"Réduit tout en une seule valeur"</em> → somme, objet, texte... Comme un entonnoir.</li>
+  <li><code>find(fn)</code> — retourne <strong>le premier élément</strong> qui correspond (ou <code>undefined</code>)</li>
+  <li><code>findIndex(fn)</code> — retourne l'<strong>index</strong> du premier élément trouvé (ou <code>-1</code>)</li>
+  <li><code>some(fn)</code> — <code>true</code> si <strong>au moins un</strong> élément passe le test</li>
+  <li><code>every(fn)</code> — <code>true</code> si <strong>tous</strong> passent le test</li>
+  <li><code>includes(val)</code> — <code>true</code> si la valeur est présente</li>
+  <li><code>flat(n)</code> — aplatis les tableaux imbriqués</li>
+  <li><code>flatMap(fn)</code> — map + flat en une seule opération</li>
+</ul>
+
+<h4>Règle d'or : ne pas muter le tableau original</h4>
+<p>Ces méthodes retournent toujours un <strong>nouveau tableau</strong>. L'original n'est jamais modifié. Cela évite les bugs difficiles à trouver. Pour ajouter un élément : <code>[...tableau, nouvelElement]</code> plutôt que <code>tableau.push()</code>.</p>
+
+<h4>Chaîner les méthodes</h4>
+<p>On peut enchaîner <code>.filter()</code>, <code>.map()</code>, etc. sur une même ligne. C'est lisible et puissant — chaque méthode reçoit en entrée le résultat de la précédente.</p>`,
+        code: `// Notre tableau de départ — chaque objet sur ses propres lignes
+const users = [
+  {
+    id:     1,
+    name:   "Alice",
+    age:    28,
+    active: true
+  },
+  {
+    id:     2,
+    name:   "Bob",
+    age:    17,
+    active: false
+  },
+  {
+    id:     3,
+    name:   "Clara",
+    age:    32,
+    active: true
+  }
 ];
 
-// map — extraire les noms
+// ──────────────────────────────────────
+// map — transformer chaque élément
+// ──────────────────────────────────────
+// Extraire juste les noms
 const names = users.map(u => u.name);
-// ["Alice", "Bob", "Clara"]
+// → ["Alice", "Bob", "Clara"]
 
-// filter — garder les actifs majeurs
-const eligible = users.filter(u => u.active && u.age >= 18);
-// [{ id:1, name:"Alice"... }, { id:3, name:"Clara"... }]
+// Créer un nouveau tableau d'objets transformés
+const usersWithLabel = users.map(u => ({
+  id:    u.id,
+  label: \`\${u.name} (\${u.age} ans)\`
+}));
+// → [{ id:1, label:"Alice (28 ans)" }, ...]
 
-// reduce — âge moyen
-const avgAge = users.reduce((sum, u) => sum + u.age, 0) / users.length;
-// 25.67
+// ──────────────────────────────────────
+// filter — garder seulement certains éléments
+// ──────────────────────────────────────
+const actifs = users.filter(u => u.active);
+// → [Alice, Clara] (Bob retiré car active: false)
 
-// find — par id
-const user = users.find(u => u.id === 2); // { id:2, name:"Bob"... }
+const majeurs = users.filter(u => u.age >= 18);
+// → [Alice, Clara] (Bob retiré car 17 ans)
 
-// Chaîner les méthodes
-const activeNames = users
-  .filter(u => u.active)
+// ──────────────────────────────────────
+// reduce — agréger en une seule valeur
+// ──────────────────────────────────────
+// Somme des âges
+const totalAge = users.reduce((somme, u) => somme + u.age, 0);
+// → 77 (28 + 17 + 32)
+
+const moyenneAge = totalAge / users.length;
+// → 25.67
+
+// ──────────────────────────────────────
+// find / findIndex — chercher un élément
+// ──────────────────────────────────────
+const bob = users.find(u => u.id === 2);
+// → { id:2, name:"Bob", age:17, active:false }
+
+const indexBob = users.findIndex(u => u.id === 2);
+// → 1 (position dans le tableau)
+
+// ──────────────────────────────────────
+// Chaîner — filtre + transformation
+// ──────────────────────────────────────
+const nomsActifsMajeurs = users
+  .filter(u => u.active && u.age >= 18)
   .map(u => u.name.toUpperCase());
-// ["ALICE", "CLARA"]
+// → ["ALICE", "CLARA"]
 
-// Spread & immutabilité
-const newUser = { id: 4, name: "Dave", age: 25, active: true };
-const updatedUsers = [...users, newUser]; // nouveau tableau, users inchangé
+// ──────────────────────────────────────
+// Immutabilité — ajouter sans "push"
+// ──────────────────────────────────────
+const nouvelUser = {
+  id:     4,
+  name:   "Dave",
+  age:    25,
+  active: true
+};
+
+const usersPlus = [...users, nouvelUser]; // users n'est PAS modifié
+const usersSans = users.filter(u => u.id !== 2); // retire Bob
 
 // Destructuration de tableau
-const [first, second, ...rest] = users;`
+const [premier, deuxieme, ...reste] = users;
+console.log(premier.name); // "Alice"
+console.log(reste.length); // 1 (Clara)`
       },
       {
         title: "Objets & Déstructuration",
         body: `
-<p>En JavaScript, presque tout est un objet. La <strong>déstructuration</strong> (ES6) permet d'extraire des valeurs de façon élégante et lisible.</p>
-<h4>Manipulation d'objets</h4>
+<p>Un <strong>objet</strong> en JavaScript est une collection de paires <em>clé : valeur</em>. C'est la structure de données la plus utilisée du langage — presque tout est un objet en JS.</p>
+
+<h4>Créer un objet</h4>
+<p>On crée un objet avec des accolades <code>{ }</code>. Chaque propriété a un nom (la clé) et une valeur. Pour bien lire ton code, <strong>écris chaque propriété sur sa propre ligne</strong> :</p>
 <ul>
-  <li>Accès : <code>obj.prop</code> ou <code>obj["prop"]</code></li>
-  <li>Ajout/modification : <code>obj.newProp = value</code></li>
-  <li>Suppression : <code>delete obj.prop</code></li>
-  <li>Copie superficielle : <code>{ ...obj }</code> ou <code>Object.assign({}, obj)</code></li>
-  <li>Clés : <code>Object.keys(obj)</code>, valeurs : <code>Object.values(obj)</code>, paires : <code>Object.entries(obj)</code></li>
+  <li><code>const user = { id: 1, name: "Pierre" }</code> → difficile à lire si beaucoup de propriétés</li>
+  <li>Préfère la version multi-lignes montrée dans l'exemple ci-dessous</li>
 </ul>
-<h4>Déstructuration</h4>
-<p>Extrait les propriétés en variables locales. Supporte les valeurs par défaut et le renommage.</p>`,
-        code: `// Création d'objet
+
+<h4>Accéder aux valeurs</h4>
+<ul>
+  <li><code>user.name</code> — notation pointée (la plus courante)</li>
+  <li><code>user["name"]</code> — notation crochet (utile si la clé est dans une variable)</li>
+</ul>
+
+<h4>Modifier un objet</h4>
+<ul>
+  <li>Modifier : <code>user.age = 22</code></li>
+  <li>Ajouter une propriété : <code>user.email = "p@mail.com"</code></li>
+  <li>Supprimer : <code>delete user.email</code></li>
+</ul>
+
+<h4>Déstructuration — extraire des propriétés facilement</h4>
+<p>Au lieu d'écrire <code>user.name</code>, <code>user.age</code>... on peut extraire plusieurs propriétés en une ligne :</p>
+<ul>
+  <li><code>const { name, age } = user</code> → crée directement les variables <code>name</code> et <code>age</code></li>
+  <li>Avec valeur par défaut : <code>const { role = "user" } = user</code> → si <code>role</code> n'existe pas, vaut "user"</li>
+  <li>Avec renommage : <code>const { name: userName } = user</code> → la variable s'appelle <code>userName</code></li>
+</ul>
+
+<h4>Copier un objet sans le modifier (spread)</h4>
+<p><code>{ ...user }</code> crée une <strong>copie nouvelle</strong> de l'objet — l'original reste intact. On peut aussi ajouter ou écraser des propriétés en même temps.</p>
+
+<h4>Object.keys / values / entries</h4>
+<p>Ces méthodes permettent de parcourir un objet comme un tableau :</p>
+<ul>
+  <li><code>Object.keys(obj)</code> → tableau des noms des propriétés</li>
+  <li><code>Object.values(obj)</code> → tableau des valeurs</li>
+  <li><code>Object.entries(obj)</code> → tableau de paires <code>[clé, valeur]</code></li>
+</ul>`,
+        code: `// ✅ Création d'objet — une propriété par ligne, bien lisible
 const user = {
-  id: 1,
-  name: "Pierre",
-  age: 21,
-  address: { city: "Paris", zip: "75001" }
+  id:    1,
+  name:  "Pierre",
+  age:   21,
+  role:  "student",
+  address: {
+    city:    "Paris",
+    zip:     "75001",
+    country: "France"
+  }
 };
 
-// Déstructuration simple
+// Accès aux propriétés
+console.log(user.name);            // "Pierre"
+console.log(user.address.city);    // "Paris"
+const key = "age";
+console.log(user[key]);            // 21
+
+// Modifier / ajouter
+user.age   = 22;
+user.email = "pierre@mail.com";
+
+// Supprimer
+delete user.email;
+
+// ────────────────────────────────
+// Déstructuration
+// ────────────────────────────────
+
+// Extraction simple
 const { name, age } = user;
 console.log(name); // "Pierre"
+console.log(age);  // 22
 
-// Renommage
+// Valeur par défaut si la propriété n'existe pas
+const { role = "user", score = 0 } = user;
+console.log(role);  // "student" (existe dans user)
+console.log(score); // 0 (n'existe pas → valeur par défaut)
+
+// Renommage : la variable s'appelle "userName", pas "name"
 const { name: userName } = user;
-
-// Valeur par défaut
-const { role = "user" } = user; // "user"
+console.log(userName); // "Pierre"
 
 // Déstructuration imbriquée
-const { address: { city } } = user; // "Paris"
+const { address: { city, zip } } = user;
+console.log(city); // "Paris"
+console.log(zip);  // "75001"
 
-// Dans les paramètres de fonction
-function greet({ name, age = 0 }) {
-  return \`\${name} a \${age} ans\`;
+// Dans les paramètres d'une fonction
+function afficherUser({ name, age, role = "inconnu" }) {
+  console.log(\`\${name} (\${age} ans) — rôle : \${role}\`);
 }
-greet(user); // "Pierre a 21 ans"
+afficherUser(user); // "Pierre (22 ans) — rôle : student"
 
-// Spread — copie et surcharge
-const updatedUser = {
-  ...user,
-  age: 22,          // surcharge
-  email: "p@x.com"  // ajout
+// ────────────────────────────────
+// Copier et modifier sans toucher l'original
+// ────────────────────────────────
+const userModifie = {
+  ...user,          // copie toutes les propriétés de user
+  age:   23,        // écrase l'âge
+  email: "p@x.com"  // ajoute une nouvelle propriété
+};
+// user est toujours intact ! userModifie est un nouvel objet.
+
+// ────────────────────────────────
+// Parcourir un objet
+// ────────────────────────────────
+const produit = {
+  nom:   "Clavier",
+  prix:  49.99,
+  stock: 12
 };
 
-// Object.entries — itérer sur un objet
-Object.entries(user).forEach(([key, value]) => {
-  console.log(\`\${key}: \${value}\`);
+Object.keys(produit).forEach(cle => {
+  console.log(cle); // "nom", "prix", "stock"
 });
 
-// Méthodes shorthand (ES6)
-const name = "Alice";
-const age  = 30;
-const obj  = { name, age }; // { name: "Alice", age: 30 }`
+Object.entries(produit).forEach(([cle, valeur]) => {
+  console.log(\`\${cle} = \${valeur}\`);
+  // "nom = Clavier"
+  // "prix = 49.99"
+  // "stock = 12"
+});
+
+// Shorthand ES6 — si la variable et la clé ont le même nom
+const nom  = "Alice";
+const age2 = 30;
+const personne = { nom, age: age2 }; // { nom: "Alice", age: 30 }`
       },
       {
         title: "Promesses & async/await",
