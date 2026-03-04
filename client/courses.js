@@ -2043,7 +2043,34 @@ async function fetchWithRetry(url, retries = 3) {
       {
         title: "C'est quoi l'UML ?",
         body: `
-<p><strong>UML</strong> (Unified Modeling Language) est un langage visuel standard pour <em>modéliser</em> des systèmes logiciels. Il ne s'agit pas d'un langage de programmation mais d'un outil de <strong>conception et de communication</strong> entre développeurs.</p>
+<p><strong>UML</strong> (Unified Modeling Language) est un langage visuel standard pour <em>modéliser</em> des systèmes logiciels. Ce n'est pas un langage de programmation : c'est un outil de <strong>conception et de communication</strong>.</p>
+<p>Voici l'anatomie d'une <strong>classe UML</strong> — la brique de base :</p>
+<svg viewBox="0 0 520 215" style="max-width:520px;width:100%;display:block;margin:16px auto;border-radius:8px;background:#0f172a">
+  <!-- box -->
+  <rect x="155" y="18" width="210" height="38" rx="3" fill="#0e7490" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="260" y="42" text-anchor="middle" fill="white" font-family="Fira Code,monospace" font-size="14" font-weight="bold">Voiture</text>
+  <rect x="155" y="56" width="210" height="76" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <line x1="155" y1="56" x2="365" y2="56" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="170" y="77" fill="#4ade80" font-family="Fira Code,monospace" font-size="12">+ couleur : string</text>
+  <text x="170" y="97" fill="#f87171" font-family="Fira Code,monospace" font-size="12">- vitesse : int</text>
+  <text x="170" y="117" fill="#fbbf24" font-family="Fira Code,monospace" font-size="12"># marque : string</text>
+  <rect x="155" y="132" width="210" height="56" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <line x1="155" y1="132" x2="365" y2="132" stroke="#475569" stroke-width="1"/>
+  <text x="170" y="153" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="12">+ demarrer() : void</text>
+  <text x="170" y="175" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="12">- calculerConso() : int</text>
+  <!-- left labels -->
+  <text x="8" y="40" fill="#fbbf24" font-family="sans-serif" font-size="11" font-weight="bold">Nom</text>
+  <line x1="44" y1="37" x2="153" y2="37" stroke="#fbbf24" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="8" y="95" fill="#38bdf8" font-family="sans-serif" font-size="11" font-weight="bold">Attributs</text>
+  <line x1="62" y1="92" x2="153" y2="92" stroke="#38bdf8" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="8" y="163" fill="#a78bfa" font-family="sans-serif" font-size="11" font-weight="bold">Méthodes</text>
+  <line x1="68" y1="160" x2="153" y2="160" stroke="#a78bfa" stroke-width="1" stroke-dasharray="4,3"/>
+  <!-- right legend -->
+  <text x="378" y="77"  fill="#4ade80" font-family="Fira Code,monospace" font-size="11">+ public</text>
+  <text x="378" y="97"  fill="#f87171" font-family="Fira Code,monospace" font-size="11">- private</text>
+  <text x="378" y="117" fill="#fbbf24" font-family="Fira Code,monospace" font-size="11"># protected</text>
+</svg>
+<p>La visibilité (<code>+</code> <code>-</code> <code>#</code>) contrôle qui peut accéder à chaque membre de la classe.</p>
 <h4>Pourquoi utiliser UML ?</h4>
 <ul>
   <li>📐 Concevoir une base de données ou une architecture <strong>avant</strong> de coder</li>
@@ -2074,22 +2101,49 @@ class Utilisateur {
       {
         title: "Diagramme de classes",
         body: `
-<p>Le <strong>diagramme de classes</strong> est le plus utilisé en UML. Il représente les <em>entités</em> de ton système (les "objets") et leurs <em>propriétés</em>.</p>
-<h4>Anatomie d'une classe</h4>
-<p>Une classe est une boîte à 3 compartiments :</p>
+<p>Le <strong>diagramme de classes</strong> représente les entités de ton système et leurs propriétés. Chaque boîte = une classe, chaque ligne = une relation.</p>
+<p>Exemple pour un e-commerce — 3 classes côte à côte :</p>
+<svg viewBox="0 0 620 195" style="max-width:620px;width:100%;display:block;margin:16px auto;border-radius:8px;background:#0f172a">
+  <!-- Produit -->
+  <rect x="10" y="12" width="175" height="34" rx="3" fill="#0e7490" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="97" y="33" text-anchor="middle" fill="white" font-family="Fira Code,monospace" font-size="13" font-weight="bold">Produit</text>
+  <rect x="10" y="46" width="175" height="84" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <line x1="10" y1="46" x2="185" y2="46" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="22" y="65" fill="#f87171" font-family="Fira Code,monospace" font-size="11">- id : int</text>
+  <text x="22" y="82" fill="#4ade80" font-family="Fira Code,monospace" font-size="11">+ nom : string</text>
+  <text x="22" y="99" fill="#4ade80" font-family="Fira Code,monospace" font-size="11">+ prix : float</text>
+  <text x="22" y="116" fill="#4ade80" font-family="Fira Code,monospace" font-size="11">+ stock : int</text>
+  <rect x="10" y="130" width="175" height="36" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <line x1="10" y1="130" x2="185" y2="130" stroke="#475569" stroke-width="1"/>
+  <text x="22" y="152" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="11">+ getDetails() : string</text>
+  <!-- Commande -->
+  <rect x="222" y="12" width="175" height="34" rx="3" fill="#7c3aed" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="310" y="33" text-anchor="middle" fill="white" font-family="Fira Code,monospace" font-size="13" font-weight="bold">Commande</text>
+  <rect x="222" y="46" width="175" height="84" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <line x1="222" y1="46" x2="397" y2="46" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="234" y="65" fill="#f87171" font-family="Fira Code,monospace" font-size="11">- id : int</text>
+  <text x="234" y="82" fill="#4ade80" font-family="Fira Code,monospace" font-size="11">+ date : Date</text>
+  <text x="234" y="99" fill="#4ade80" font-family="Fira Code,monospace" font-size="11">+ statut : string</text>
+  <rect x="222" y="130" width="175" height="36" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <line x1="222" y1="130" x2="397" y2="130" stroke="#475569" stroke-width="1"/>
+  <text x="234" y="152" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="11">+ calculerTotal() : float</text>
+  <!-- Utilisateur -->
+  <rect x="435" y="12" width="175" height="34" rx="3" fill="#0f766e" stroke="#34d399" stroke-width="1.5"/>
+  <text x="522" y="33" text-anchor="middle" fill="white" font-family="Fira Code,monospace" font-size="13" font-weight="bold">Utilisateur</text>
+  <rect x="435" y="46" width="175" height="84" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <line x1="435" y1="46" x2="610" y2="46" stroke="#34d399" stroke-width="1.5"/>
+  <text x="447" y="65" fill="#f87171" font-family="Fira Code,monospace" font-size="11">- id : int</text>
+  <text x="447" y="82" fill="#4ade80" font-family="Fira Code,monospace" font-size="11">+ email : string</text>
+  <text x="447" y="99" fill="#f87171" font-family="Fira Code,monospace" font-size="11">- motDePasse : string</text>
+  <rect x="435" y="130" width="175" height="36" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <line x1="435" y1="130" x2="610" y2="130" stroke="#475569" stroke-width="1"/>
+  <text x="447" y="152" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="11">+ seConnecter() : bool</text>
+</svg>
 <ul>
-  <li><strong>Nom</strong> de la classe (en haut)</li>
-  <li><strong>Attributs</strong> (propriétés) : <code>nom: type</code></li>
-  <li><strong>Méthodes</strong> (actions) : <code>nomMethode(): typeRetour</code></li>
-</ul>
-<h4>Visibilité des membres</h4>
-<ul>
-  <li><code>+</code> <strong>public</strong> — accessible partout</li>
+  <li><code>+</code> <strong>public</strong> — accessible de partout</li>
   <li><code>-</code> <strong>private</strong> — accessible uniquement dans la classe</li>
   <li><code>#</code> <strong>protected</strong> — accessible dans la classe et ses sous-classes</li>
-</ul>
-<h4>Exemple concret</h4>
-<p>Pour une appli de e-commerce, on modélise d'abord les classes principales : <code>Produit</code>, <code>Commande</code>, <code>Utilisateur</code>…</p>`,
+</ul>`,
         code: `@startuml
 class Produit {
   -id: int
@@ -2117,18 +2171,48 @@ class Utilisateur {
       {
         title: "Association & Navigabilité",
         body: `
-<p>Une <strong>association</strong> est un lien entre deux classes. C'est la relation la plus simple : « A connaît B ».</p>
-<h4>Types de flèches</h4>
+<p>Les <strong>relations</strong> entre classes s'expriment par des lignes avec des symboles précis. Voici les 3 types principaux :</p>
+<svg viewBox="0 0 580 230" style="max-width:580px;width:100%;display:block;margin:16px auto;border-radius:8px;background:#0f172a">
+  <!-- Row 1: Association simple -->
+  <text x="12" y="28" fill="#94a3b8" font-family="sans-serif" font-size="11" font-weight="bold">ASSOCIATION</text>
+  <rect x="12" y="34" width="100" height="32" rx="3" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <text x="62" y="55" text-anchor="middle" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="12">Commande</text>
+  <line x1="112" y1="50" x2="250" y2="50" stroke="#94a3b8" stroke-width="1.5"/>
+  <!-- arrowhead -->
+  <polygon points="250,50 240,45 240,55" fill="#94a3b8"/>
+  <rect x="252" y="34" width="120" height="32" rx="3" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <text x="312" y="55" text-anchor="middle" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="12">Utilisateur</text>
+  <text x="148" y="44" fill="#22d3ee" font-family="Fira Code,monospace" font-size="10">0..*</text>
+  <text x="232" y="44" fill="#22d3ee" font-family="Fira Code,monospace" font-size="10">1</text>
+  <text x="390" y="55" fill="#64748b" font-family="sans-serif" font-size="11">A connaît B → dirigée</text>
+
+  <!-- Row 2: Agrégation -->
+  <text x="12" y="105" fill="#94a3b8" font-family="sans-serif" font-size="11" font-weight="bold">AGRÉGATION  ◇</text>
+  <rect x="12" y="111" width="100" height="32" rx="3" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <text x="62" y="132" text-anchor="middle" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="12">Equipe</text>
+  <!-- open diamond at source -->
+  <polygon points="114,127 122,122 130,127 122,132" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="130" y1="127" x2="250" y2="127" stroke="#94a3b8" stroke-width="1.5"/>
+  <rect x="252" y="111" width="100" height="32" rx="3" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <text x="302" y="132" text-anchor="middle" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="12">Joueur</text>
+  <text x="148" y="121" fill="#22d3ee" font-family="Fira Code,monospace" font-size="10">0..*</text>
+  <text x="390" y="132" fill="#64748b" font-family="sans-serif" font-size="11">Joueur peut exister sans Equipe</text>
+
+  <!-- Row 3: Composition -->
+  <text x="12" y="182" fill="#94a3b8" font-family="sans-serif" font-size="11" font-weight="bold">COMPOSITION  ◆</text>
+  <rect x="12" y="188" width="100" height="32" rx="3" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <text x="62" y="209" text-anchor="middle" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="12">Commande</text>
+  <!-- filled diamond at source -->
+  <polygon points="114,204 122,199 130,204 122,209" fill="#94a3b8" stroke="#94a3b8" stroke-width="1"/>
+  <line x1="130" y1="204" x2="250" y2="204" stroke="#94a3b8" stroke-width="1.5"/>
+  <rect x="252" y="188" width="115" height="32" rx="3" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <text x="309" y="209" text-anchor="middle" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="12">LigneCommande</text>
+  <text x="148" y="198" fill="#22d3ee" font-family="Fira Code,monospace" font-size="10">1..*</text>
+  <text x="390" y="209" fill="#64748b" font-family="sans-serif" font-size="11">LigneCommande n'existe pas seule</text>
+</svg>
 <ul>
-  <li><code>A ——— B</code> Association simple bidirectionnelle</li>
-  <li><code>A ——→ B</code> Association dirigée : A connaît B, mais pas l'inverse</li>
-  <li><code>A - - → B</code> Dépendance : A utilise B temporairement</li>
-</ul>
-<h4>Agrégation vs Composition</h4>
-<p>Ce sont deux types d'associations qui expriment une relation <strong>"contient"</strong> :</p>
-<ul>
-  <li>🔷 <strong>Agrégation</strong> (losange vide <code>◇</code>) : le tout contient les parties, mais les parties peuvent <em>exister indépendamment</em>. <br>Ex : une <code>Équipe</code> contient des <code>Joueur</code>s — un joueur peut exister sans équipe.</li>
-  <li>🔶 <strong>Composition</strong> (losange plein <code>◆</code>) : les parties n'existent <em>pas sans le tout</em>. <br>Ex : une <code>Commande</code> contient des <code>LigneCommande</code> — une ligne n'existe pas sans sa commande.</li>
+  <li>🔷 <strong>Agrégation</strong> (losange vide) : les parties <em>peuvent exister</em> sans le tout.</li>
+  <li>🔶 <strong>Composition</strong> (losange plein) : les parties <em>n'existent pas</em> sans le tout (cycle de vie partagé).</li>
 </ul>`,
         code: `@startuml
 ' Composition : LigneCommande appartient à Commande
@@ -2144,25 +2228,52 @@ Commande "0..*" --> "1" Utilisateur : passée par
       {
         title: "Cardinalités : 1-1, 1-N, N-N",
         body: `
-<p>Les <strong>cardinalités</strong> (ou multiplicités) précisent <em>combien</em> d'instances d'une classe peuvent être associées à une autre. C'est le cœur de la modélisation.</p>
-<h4>Notation</h4>
-<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:0.9rem">
-  <tr style="background:rgba(255,255,255,0.05)">
-    <th style="padding:8px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.1)">Notation</th>
-    <th style="padding:8px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.1)">Signification</th>
-  </tr>
-  <tr><td style="padding:8px"><code>1</code></td><td style="padding:8px">Exactement 1</td></tr>
-  <tr><td style="padding:8px"><code>0..1</code></td><td style="padding:8px">0 ou 1 (optionnel)</td></tr>
-  <tr><td style="padding:8px"><code>1..*</code></td><td style="padding:8px">1 ou plusieurs (au moins 1)</td></tr>
-  <tr><td style="padding:8px"><code>0..*</code> ou <code>*</code></td><td style="padding:8px">0 ou plusieurs (aucune contrainte)</td></tr>
-  <tr><td style="padding:8px"><code>2..5</code></td><td style="padding:8px">Entre 2 et 5</td></tr>
-</table>
-<h4>Les 3 grands types de relations</h4>
-<ul>
-  <li>🟢 <strong>1-1 (One-to-One)</strong> : un utilisateur a <em>un seul</em> profil, un profil appartient à <em>un seul</em> utilisateur.</li>
-  <li>🟡 <strong>1-N (One-to-Many)</strong> : un auteur écrit <em>plusieurs</em> articles, chaque article a <em>un seul</em> auteur.</li>
-  <li>🔴 <strong>N-N (Many-to-Many)</strong> : un étudiant suit <em>plusieurs</em> cours, un cours est suivi par <em>plusieurs</em> étudiants.</li>
-</ul>`,
+<p>Les <strong>cardinalités</strong> précisent <em>combien</em> d'instances d'une classe sont associées à une autre. Elles se notent de chaque côté de la relation.</p>
+<svg viewBox="0 0 580 250" style="max-width:580px;width:100%;display:block;margin:16px auto;border-radius:8px;background:#0f172a">
+  <!-- Row 1: 1-1 -->
+  <rect x="12" y="20" width="5" height="50" rx="2" fill="#4ade80"/>
+  <text x="24" y="40" fill="#4ade80" font-family="sans-serif" font-size="12" font-weight="bold">1-1  One-to-One</text>
+  <text x="24" y="57" fill="#64748b" font-family="sans-serif" font-size="11">Un utilisateur a exactement un profil</text>
+  <rect x="80" y="75" width="110" height="30" rx="3" fill="#1e293b" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="135" y="95" text-anchor="middle" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="12">Utilisateur</text>
+  <line x1="190" y1="90" x2="330" y2="90" stroke="#94a3b8" stroke-width="1.5"/>
+  <rect x="330" y="75" width="90" height="30" rx="3" fill="#1e293b" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="375" y="95" text-anchor="middle" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="12">Profil</text>
+  <text x="200" y="84" fill="#22d3ee" font-family="Fira Code,monospace" font-size="11" font-weight="bold">1</text>
+  <text x="313" y="84" fill="#22d3ee" font-family="Fira Code,monospace" font-size="11" font-weight="bold">1</text>
+
+  <!-- Row 2: 1-N -->
+  <rect x="12" y="115" width="5" height="50" rx="2" fill="#fbbf24"/>
+  <text x="24" y="135" fill="#fbbf24" font-family="sans-serif" font-size="12" font-weight="bold">1-N  One-to-Many</text>
+  <text x="24" y="152" fill="#64748b" font-family="sans-serif" font-size="11">Un auteur écrit plusieurs articles</text>
+  <rect x="80" y="163" width="90" height="30" rx="3" fill="#1e293b" stroke="#fbbf24" stroke-width="1.5"/>
+  <text x="125" y="183" text-anchor="middle" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="12">Auteur</text>
+  <line x1="170" y1="178" x2="330" y2="178" stroke="#94a3b8" stroke-width="1.5"/>
+  <rect x="330" y="163" width="90" height="30" rx="3" fill="#1e293b" stroke="#fbbf24" stroke-width="1.5"/>
+  <text x="375" y="183" text-anchor="middle" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="12">Article</text>
+  <text x="178" y="172" fill="#22d3ee" font-family="Fira Code,monospace" font-size="11" font-weight="bold">1</text>
+  <text x="308" y="172" fill="#22d3ee" font-family="Fira Code,monospace" font-size="11" font-weight="bold">0..*</text>
+
+  <!-- Row 3: N-N -->
+  <rect x="12" y="205" width="5" height="40" rx="2" fill="#f87171"/>
+  <text x="24" y="222" fill="#f87171" font-family="sans-serif" font-size="12" font-weight="bold">N-N  Many-to-Many</text>
+  <text x="24" y="239" fill="#64748b" font-family="sans-serif" font-size="11">Un étudiant suit plusieurs cours, un cours a plusieurs étudiants</text>
+  <!-- No boxes for N-N row, shown in next chapter -->
+  <rect x="80" y="248" width="100" height="0" rx="3" fill="none"/>
+  <!-- Notation table -->
+  <rect x="450" y="15" width="120" height="125" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="510" y="32" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="10" font-weight="bold">NOTATION</text>
+  <text x="458" y="50"  fill="#22d3ee" font-family="Fira Code,monospace" font-size="11">1</text>
+  <text x="480" y="50"  fill="#64748b" font-family="sans-serif" font-size="10">Exactement un</text>
+  <text x="458" y="68"  fill="#22d3ee" font-family="Fira Code,monospace" font-size="11">0..1</text>
+  <text x="490" y="68"  fill="#64748b" font-family="sans-serif" font-size="10">Optionnel</text>
+  <text x="458" y="86"  fill="#22d3ee" font-family="Fira Code,monospace" font-size="11">1..*</text>
+  <text x="490" y="86"  fill="#64748b" font-family="sans-serif" font-size="10">Un ou plusieurs</text>
+  <text x="458" y="104" fill="#22d3ee" font-family="Fira Code,monospace" font-size="11">0..*</text>
+  <text x="490" y="104" fill="#64748b" font-family="sans-serif" font-size="10">Aucune limite</text>
+  <text x="458" y="122" fill="#22d3ee" font-family="Fira Code,monospace" font-size="11">2..5</text>
+  <text x="490" y="122" fill="#64748b" font-family="sans-serif" font-size="10">Entre 2 et 5</text>
+</svg>`,
         code: `@startuml
 ' 1-1 : Un utilisateur a exactement un profil
 Utilisateur "1" -- "1" Profil
@@ -2178,18 +2289,51 @@ Etudiant "0..*" -- "0..*" Cours
       {
         title: "Gérer le N-N en base de données",
         body: `
-<p>En base de données relationnelle (SQL), une relation <strong>N-N ne peut pas exister directement</strong>. Il faut la décomposer en deux relations 1-N via une <strong>table de liaison</strong> (aussi appelée table pivot ou table d'association).</p>
-<h4>Exemple : Étudiant ↔ Cours</h4>
-<p>La relation "un étudiant suit plusieurs cours, un cours a plusieurs étudiants" se modélise en 3 tables :</p>
-<ul>
-  <li><code>etudiant</code> (id, nom, email)</li>
-  <li><code>cours</code> (id, titre, description)</li>
-  <li><code>inscription</code> (etudiant_id, cours_id, date_inscription) ← <strong>table pivot</strong></li>
-</ul>
-<h4>La table pivot peut avoir ses propres attributs</h4>
-<p>C'est un avantage de cette approche : on peut stocker des infos sur la <em>relation elle-même</em>, pas seulement sur les entités. Ici <code>date_inscription</code> ou <code>note_finale</code> appartiennent à la relation, pas à l'étudiant ni au cours.</p>
-<h4>Règle générale</h4>
-<p>Chaque table pivot contient les <strong>clés étrangères</strong> (<em>foreign keys</em>) des deux tables qu'elle relie. La clé primaire peut être composite : <code>(etudiant_id, cours_id)</code>.</p>`,
+<p>En SQL, une relation <strong>N-N ne peut pas exister directement</strong>. On la décompose via une <strong>table pivot</strong> qui contient les clés étrangères des deux côtés.</p>
+<svg viewBox="0 0 620 220" style="max-width:620px;width:100%;display:block;margin:16px auto;border-radius:8px;background:#0f172a">
+  <!-- Etudiant table -->
+  <rect x="10" y="20" width="155" height="28" rx="3" fill="#0e7490" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="87" y="38" text-anchor="middle" fill="white" font-family="Fira Code,monospace" font-size="13" font-weight="bold">etudiant</text>
+  <rect x="10" y="48" width="155" height="115" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <line x1="10" y1="48" x2="165" y2="48" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="22" y="66" fill="#fbbf24" font-family="Fira Code,monospace" font-size="11">🔑 id : int (PK)</text>
+  <text x="22" y="84" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="11">nom : varchar</text>
+  <text x="22" y="101" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="11">email : varchar</text>
+  <text x="22" y="118" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="11">promo : string</text>
+  <!-- Inscription (pivot) -->
+  <rect x="230" y="10" width="165" height="28" rx="3" fill="#7c3aed" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="312" y="29" text-anchor="middle" fill="white" font-family="Fira Code,monospace" font-size="12" font-weight="bold">inscription 🔗</text>
+  <rect x="230" y="38" width="165" height="130" fill="#1e293b" stroke="#a78bfa" stroke-width="1.5"/>
+  <line x1="230" y1="38" x2="395" y2="38" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="242" y="56" fill="#f87171" font-family="Fira Code,monospace" font-size="11">etudiant_id (FK)</text>
+  <text x="242" y="74" fill="#f87171" font-family="Fira Code,monospace" font-size="11">cours_id (FK)</text>
+  <line x1="230" y1="80" x2="395" y2="80" stroke="#475569" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="242" y="96" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="11">date_inscription</text>
+  <text x="242" y="113" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="11">note_finale : float</text>
+  <rect x="230" y="168" width="165" height="26" rx="2" fill="rgba(124,58,237,0.15)" stroke="#475569" stroke-width="1"/>
+  <text x="312" y="185" text-anchor="middle" fill="#a78bfa" font-family="sans-serif" font-size="10">PK (etudiant_id, cours_id)</text>
+  <!-- Cours table -->
+  <rect x="455" y="20" width="155" height="28" rx="3" fill="#0f766e" stroke="#34d399" stroke-width="1.5"/>
+  <text x="532" y="38" text-anchor="middle" fill="white" font-family="Fira Code,monospace" font-size="13" font-weight="bold">cours</text>
+  <rect x="455" y="48" width="155" height="115" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <line x1="455" y1="48" x2="610" y2="48" stroke="#34d399" stroke-width="1.5"/>
+  <text x="467" y="66" fill="#fbbf24" font-family="Fira Code,monospace" font-size="11">🔑 id : int (PK)</text>
+  <text x="467" y="84" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="11">titre : varchar</text>
+  <text x="467" y="101" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="11">description : text</text>
+  <text x="467" y="118" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="11">duree : int</text>
+  <!-- arrows -->
+  <line x1="165" y1="90" x2="228" y2="68" stroke="#f87171" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <polygon points="228,68 218,65 222,75" fill="#f87171"/>
+  <line x1="395" y1="74" x2="453" y2="90" stroke="#f87171" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <polygon points="453,90 442,83 451,79" fill="#f87171"/>
+  <!-- labels -->
+  <text x="170" y="72" fill="#f87171" font-family="sans-serif" font-size="9">FK →</text>
+  <text x="405" y="78" fill="#f87171" font-family="sans-serif" font-size="9">FK →</text>
+  <text x="10" y="185" fill="#64748b" font-family="sans-serif" font-size="10">1 étudiant</text>
+  <text x="240" y="210" fill="#a78bfa" font-family="sans-serif" font-size="10">N inscriptions (pivot)</text>
+  <text x="455" y="185" fill="#64748b" font-family="sans-serif" font-size="10">1 cours</text>
+</svg>
+<p>La table pivot peut avoir ses <strong>propres attributs</strong> (ici <code>note_finale</code> ou <code>date_inscription</code>) qui appartiennent à la <em>relation</em>, pas à l'étudiant ni au cours.</p>`,
         code: `-- Table pivot pour une relation N-N
 CREATE TABLE inscription (
   etudiant_id INT REFERENCES etudiant(id),
@@ -2204,22 +2348,72 @@ CREATE TABLE inscription (
 -- Cours    "1" *-- "0..*" Inscription`
       },
       {
-        title: "Diagramme Entité-Association (ERD)",
+        title: "Diagramme ERD (Crow's Foot)",
         body: `
-<p>Le <strong>diagramme ERD</strong> (Entity-Relationship Diagram) est spécifiquement conçu pour modéliser des bases de données. Il est proche du diagramme de classes mais avec une notation différente.</p>
-<h4>Éléments principaux</h4>
-<ul>
-  <li>🟦 <strong>Entité</strong> (rectangle) : une table de la BDD. Ex: <code>Utilisateur</code></li>
-  <li>🔶 <strong>Attribut</strong> (ovale) : une colonne. Le <u>souligné</u> indique la clé primaire</li>
-  <li>🔷 <strong>Association</strong> (losange) : une relation entre entités</li>
-</ul>
-<h4>Notation de Chen vs notation Crow's Foot</h4>
-<p>Il existe deux notations populaires :</p>
-<ul>
-  <li><strong>Chen</strong> (classique) : entités en rectangles, relations en losanges, cardinalités notées 1 / N / M</li>
-  <li><strong>Crow's Foot</strong> (moderne, utilisé par Figma, dbdiagram.io…) : les cardinalités sont représentées par des "pattes de corbeau" sur les lignes</li>
-</ul>
-<p>En pratique aujourd'hui, on utilise surtout la notation <strong>Crow's Foot</strong> avec des outils comme <strong>dbdiagram.io</strong>, Lucidchart, ou drawSQL.</p>`,
+<p>L'<strong>ERD</strong> modélise les tables d'une base de données. La notation <strong>Crow's Foot</strong> (pattes de corbeau) exprime les cardinalités directement sur les traits de liaison.</p>
+<svg viewBox="0 0 640 310" style="max-width:640px;width:100%;display:block;margin:16px auto;border-radius:8px;background:#0f172a">
+  <!-- utilisateur -->
+  <rect x="10" y="10" width="160" height="28" rx="3" fill="#0e7490" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="90" y="28" text-anchor="middle" fill="white" font-family="Fira Code,monospace" font-size="12" font-weight="bold">utilisateur</text>
+  <rect x="10" y="38" width="160" height="95" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <line x1="10" y1="38" x2="170" y2="38" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="22" y="56" fill="#fbbf24" font-family="Fira Code,monospace" font-size="11">🔑 id (PK)</text>
+  <text x="22" y="74" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="11">nom</text>
+  <text x="22" y="91" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="11">email (unique)</text>
+  <text x="22" y="108" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="11">created_at</text>
+  <!-- article -->
+  <rect x="240" y="10" width="160" height="28" rx="3" fill="#7c3aed" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="320" y="28" text-anchor="middle" fill="white" font-family="Fira Code,monospace" font-size="12" font-weight="bold">article</text>
+  <rect x="240" y="38" width="160" height="112" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <line x1="240" y1="38" x2="400" y2="38" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="252" y="56" fill="#fbbf24" font-family="Fira Code,monospace" font-size="11">🔑 id (PK)</text>
+  <text x="252" y="74" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="11">titre</text>
+  <text x="252" y="91" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="11">contenu</text>
+  <text x="252" y="108" fill="#f87171" font-family="Fira Code,monospace" font-size="11">auteur_id (FK)</text>
+  <text x="252" y="125" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="11">created_at</text>
+  <!-- tag -->
+  <rect x="470" y="10" width="155" height="28" rx="3" fill="#0f766e" stroke="#34d399" stroke-width="1.5"/>
+  <text x="547" y="28" text-anchor="middle" fill="white" font-family="Fira Code,monospace" font-size="12" font-weight="bold">tag</text>
+  <rect x="470" y="38" width="155" height="62" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <line x1="470" y1="38" x2="625" y2="38" stroke="#34d399" stroke-width="1.5"/>
+  <text x="482" y="56" fill="#fbbf24" font-family="Fira Code,monospace" font-size="11">🔑 id (PK)</text>
+  <text x="482" y="74" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="11">nom</text>
+  <!-- article_tag pivot -->
+  <rect x="355" y="200" width="160" height="28" rx="3" fill="#b45309" stroke="#fbbf24" stroke-width="1.5"/>
+  <text x="435" y="218" text-anchor="middle" fill="white" font-family="Fira Code,monospace" font-size="12" font-weight="bold">article_tag 🔗</text>
+  <rect x="355" y="228" width="160" height="62" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <line x1="355" y1="228" x2="515" y2="228" stroke="#fbbf24" stroke-width="1.5"/>
+  <text x="367" y="246" fill="#f87171" font-family="Fira Code,monospace" font-size="11">article_id (FK)</text>
+  <text x="367" y="263" fill="#f87171" font-family="Fira Code,monospace" font-size="11">tag_id (FK)</text>
+  <text x="367" y="280" fill="#94a3b8" font-family="Fira Code,monospace" font-size="10">PK (article_id, tag_id)</text>
+  <!-- utilisateur 1 —|— article N: crow's foot -->
+  <!-- simple line with |-- and crow foot -->
+  <line x1="170" y1="85" x2="238" y2="85" stroke="#94a3b8" stroke-width="1.5"/>
+  <!-- "1" side (utilisateur): vertical tick -->
+  <line x1="175" y1="79" x2="175" y2="91" stroke="#94a3b8" stroke-width="1.5"/>
+  <!-- "many" side (article): crow foot -->
+  <line x1="233" y1="79" x2="238" y2="85" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="233" y1="91" x2="238" y2="85" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="229" y1="79" x2="229" y2="91" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="177" y="79" fill="#22d3ee" font-family="Fira Code,monospace" font-size="9">1</text>
+  <text x="213" y="79" fill="#22d3ee" font-family="Fira Code,monospace" font-size="9">0..*</text>
+  <!-- article N—pivot—N tag -->
+  <line x1="320" y1="150" x2="390" y2="200" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="325" y="178" fill="#f87171" font-family="sans-serif" font-size="9">FK</text>
+  <line x1="520" y1="100" x2="490" y2="200" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="520" y="155" fill="#f87171" font-family="sans-serif" font-size="9">FK</text>
+  <!-- legend -->
+  <text x="10" y="175" fill="#94a3b8" font-family="sans-serif" font-size="10" font-weight="bold">Crow's Foot :</text>
+  <line x1="10" y1="188" x2="40" y2="188" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="36" y1="183" x2="36" y2="193" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="44" y="192" fill="#64748b" font-family="sans-serif" font-size="10">= exactement 1</text>
+  <line x1="10" y1="205" x2="40" y2="205" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="35" y1="200" x2="40" y2="205" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="35" y1="210" x2="40" y2="205" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="31" y1="199" x2="31" y2="211" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="44" y="209" fill="#64748b" font-family="sans-serif" font-size="10">= zéro ou plusieurs</text>
+</svg>
+<p>Outil recommandé : <strong>dbdiagram.io</strong> — gratuit, intuitif, export SQL automatique.</p>`,
         code: `// Exemple avec dbdiagram.io (notation DBML)
 Table utilisateur {
   id int [pk, increment]
@@ -2246,28 +2440,78 @@ Table article_tag {
 }`
       },
       {
-        title: "Cas pratique : modéliser une appli",
+        title: "Cas pratique : blog complet",
         body: `
-<p>Mettons en pratique avec un exemple réel : une application de <strong>blog</strong> avec utilisateurs, articles, commentaires et tags.</p>
-<h4>Étape 1 — Lister les entités</h4>
-<p>On identifie les "noms" principaux du domaine :</p>
-<ul>
-  <li><code>Utilisateur</code> — peut être auteur ou lecteur</li>
-  <li><code>Article</code> — écrit par un utilisateur</li>
-  <li><code>Commentaire</code> — posté par un utilisateur sur un article</li>
-  <li><code>Tag</code> — catégorie/label d'un article</li>
-</ul>
-<h4>Étape 2 — Définir les relations</h4>
-<ul>
-  <li>Un <strong>Utilisateur</strong> écrit <strong>0..* Articles</strong> → 1-N</li>
-  <li>Un <strong>Article</strong> a <strong>0..* Commentaires</strong> → 1-N</li>
-  <li>Un <strong>Utilisateur</strong> poste <strong>0..* Commentaires</strong> → 1-N</li>
-  <li>Un <strong>Article</strong> a <strong>0..* Tags</strong>, un <strong>Tag</strong> est sur <strong>0..* Articles</strong> → N-N (table pivot <code>article_tag</code>)</li>
-</ul>
-<h4>Étape 3 — Repérer les attributs clés</h4>
-<p>Pour chaque entité : quelle est la <strong>clé primaire</strong> ? Quelles sont les <strong>clés étrangères</strong> ? Quels attributs portent de l'information utile ?</p>
-<h4>Conseil</h4>
-<p>Commence toujours par un schéma papier ou sur <a href="https://dbdiagram.io" target="_blank" rel="noopener noreferrer">dbdiagram.io</a> avant d'écrire la moindre ligne de SQL.</p>`,
+<p>Voici le diagramme complet d'une appli blog — <strong>Utilisateur, Article, Commentaire, Tag</strong> — avec toutes les relations.</p>
+<svg viewBox="0 0 680 360" style="max-width:680px;width:100%;display:block;margin:16px auto;border-radius:8px;background:#0f172a">
+  <!-- Utilisateur (top-left) -->
+  <rect x="10" y="10" width="155" height="28" rx="3" fill="#0e7490" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="87" y="28" text-anchor="middle" fill="white" font-family="Fira Code,monospace" font-size="12" font-weight="bold">Utilisateur</text>
+  <rect x="10" y="38" width="155" height="91" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <line x1="10" y1="38" x2="165" y2="38" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="22" y="56" fill="#fbbf24" font-family="Fira Code,monospace" font-size="11">🔑 id : int</text>
+  <text x="22" y="74" fill="#f87171" font-family="Fira Code,monospace" font-size="11">- nom : string</text>
+  <text x="22" y="91" fill="#f87171" font-family="Fira Code,monospace" font-size="11">- email : string</text>
+  <rect x="10" y="129" width="155" height="28" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <line x1="10" y1="129" x2="165" y2="129" stroke="#475569" stroke-width="1"/>
+  <text x="22" y="147" fill="#e2e8f0" font-family="Fira Code,monospace" font-size="11">+ seConnecter() : bool</text>
+  <!-- Article (top-right) -->
+  <rect x="265" y="10" width="155" height="28" rx="3" fill="#7c3aed" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="342" y="28" text-anchor="middle" fill="white" font-family="Fira Code,monospace" font-size="12" font-weight="bold">Article</text>
+  <rect x="265" y="38" width="155" height="108" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <line x1="265" y1="38" x2="420" y2="38" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="277" y="56" fill="#fbbf24" font-family="Fira Code,monospace" font-size="11">🔑 id : int</text>
+  <text x="277" y="74" fill="#4ade80" font-family="Fira Code,monospace" font-size="11">+ titre : string</text>
+  <text x="277" y="91" fill="#4ade80" font-family="Fira Code,monospace" font-size="11">+ contenu : text</text>
+  <text x="277" y="108" fill="#f87171" font-family="Fira Code,monospace" font-size="11">auteur_id (FK)</text>
+  <text x="277" y="125" fill="#4ade80" font-family="Fira Code,monospace" font-size="11">+ createdAt : Date</text>
+  <!-- Commentaire (bottom-left) -->
+  <rect x="10" y="240" width="155" height="28" rx="3" fill="#0f766e" stroke="#34d399" stroke-width="1.5"/>
+  <text x="87" y="258" text-anchor="middle" fill="white" font-family="Fira Code,monospace" font-size="12" font-weight="bold">Commentaire</text>
+  <rect x="10" y="268" width="155" height="75" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <line x1="10" y1="268" x2="165" y2="268" stroke="#34d399" stroke-width="1.5"/>
+  <text x="22" y="286" fill="#fbbf24" font-family="Fira Code,monospace" font-size="11">🔑 id : int</text>
+  <text x="22" y="304" fill="#4ade80" font-family="Fira Code,monospace" font-size="11">+ contenu : string</text>
+  <text x="22" y="321" fill="#f87171" font-family="Fira Code,monospace" font-size="11">auteur_id, article_id</text>
+  <!-- Tag (bottom-right) -->
+  <rect x="500" y="240" width="155" height="28" rx="3" fill="#b45309" stroke="#fbbf24" stroke-width="1.5"/>
+  <text x="577" y="258" text-anchor="middle" fill="white" font-family="Fira Code,monospace" font-size="12" font-weight="bold">Tag</text>
+  <rect x="500" y="268" width="155" height="58" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <line x1="500" y1="268" x2="655" y2="268" stroke="#fbbf24" stroke-width="1.5"/>
+  <text x="512" y="286" fill="#fbbf24" font-family="Fira Code,monospace" font-size="11">🔑 id : int</text>
+  <text x="512" y="304" fill="#4ade80" font-family="Fira Code,monospace" font-size="11">+ nom : string</text>
+  <!-- article_tag pivot (center-bottom) -->
+  <rect x="265" y="260" width="155" height="28" rx="3" fill="#4a1d96" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="342" y="278" text-anchor="middle" fill="white" font-family="Fira Code,monospace" font-size="11">article_tag 🔗</text>
+  <rect x="265" y="288" width="155" height="42" fill="#1e293b" stroke="#475569" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="277" y="307" fill="#f87171" font-family="Fira Code,monospace" font-size="11">article_id (FK)</text>
+  <text x="277" y="324" fill="#f87171" font-family="Fira Code,monospace" font-size="11">tag_id (FK)</text>
+  <!-- RELATIONS -->
+  <!-- Utilisateur 1 ——rédige——> 0..* Article (horizontal) -->
+  <line x1="165" y1="70" x2="263" y2="70" stroke="#94a3b8" stroke-width="1.5"/>
+  <polygon points="263,70 253,65 253,75" fill="#94a3b8"/>
+  <text x="186" y="64" fill="#22d3ee" font-family="Fira Code,monospace" font-size="9">1</text>
+  <text x="228" y="64" fill="#22d3ee" font-family="Fira Code,monospace" font-size="9">0..*</text>
+  <text x="192" y="82" fill="#64748b" font-family="sans-serif" font-size="9">rédige</text>
+  <!-- Utilisateur 1 ——poste——> 0..* Commentaire (vertical left) -->
+  <line x1="87" y1="157" x2="87" y2="238" stroke="#94a3b8" stroke-width="1.5"/>
+  <polygon points="87,238 82,228 92,228" fill="#94a3b8"/>
+  <text x="91" y="180" fill="#22d3ee" font-family="Fira Code,monospace" font-size="9">1</text>
+  <text x="91" y="222" fill="#22d3ee" font-family="Fira Code,monospace" font-size="9">0..*</text>
+  <text x="96" y="200" fill="#64748b" font-family="sans-serif" font-size="9">poste</text>
+  <!-- Article 1 ——reçoit——> 0..* Commentaire (diagonal) -->
+  <line x1="280" y1="146" x2="165" y2="258" stroke="#94a3b8" stroke-width="1.5"/>
+  <polygon points="165,258 161,245 172,249" fill="#94a3b8"/>
+  <text x="208" y="197" fill="#22d3ee" font-family="Fira Code,monospace" font-size="9">0..*</text>
+  <text x="234" y="185" fill="#64748b" font-family="sans-serif" font-size="9">reçoit</text>
+  <!-- Article ——— article_tag ——— Tag (N-N pivot) -->
+  <line x1="342" y1="146" x2="342" y2="258" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="420" y1="278" x2="498" y2="278" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="348" y="207" fill="#a78bfa" font-family="Fira Code,monospace" font-size="9">0..*</text>
+  <text x="450" y="272" fill="#a78bfa" font-family="Fira Code,monospace" font-size="9">0..*</text>
+  <text x="452" y="262" fill="#64748b" font-family="sans-serif" font-size="9">classé par</text>
+</svg>
+<p>Méthode ✅ : on liste les entités → on identifie les relations → on note les cardinalités → on repère les N-N → on crée les tables pivot. Seulement ensuite on écrit le SQL.</p>`,
         code: `@startuml
 class Utilisateur {
   +id: int
