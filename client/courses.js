@@ -2033,5 +2033,273 @@ async function fetchWithRetry(url, retries = 3) {
 }`
       }
     ]
+  },
+
+  uml: {
+    title: "UML & Modélisation",
+    icon: "📊",
+    color: "#00b4d8",
+    chapters: [
+      {
+        title: "C'est quoi l'UML ?",
+        body: `
+<p><strong>UML</strong> (Unified Modeling Language) est un langage visuel standard pour <em>modéliser</em> des systèmes logiciels. Il ne s'agit pas d'un langage de programmation mais d'un outil de <strong>conception et de communication</strong> entre développeurs.</p>
+<h4>Pourquoi utiliser UML ?</h4>
+<ul>
+  <li>📐 Concevoir une base de données ou une architecture <strong>avant</strong> de coder</li>
+  <li>🗣️ Communiquer clairement avec une équipe</li>
+  <li>📖 Documenter un système existant</li>
+  <li>🔍 Repérer les problèmes de conception en amont</li>
+</ul>
+<h4>Les diagrammes les plus courants</h4>
+<ul>
+  <li><strong>Diagramme de classes</strong> — structure des objets et leurs relations</li>
+  <li><strong>Diagramme entité-association (ERD)</strong> — modélisation des données</li>
+  <li><strong>Diagramme de séquence</strong> — ordre des interactions</li>
+  <li><strong>Diagramme de cas d'utilisation</strong> — fonctionnalités vues par l'utilisateur</li>
+</ul>
+<p>Dans ce cours, on se concentre sur les deux premiers, les plus utiles au quotidien.</p>`,
+        code: `// UML n'est pas du code, c'est une notation visuelle.
+// On le note souvent en texte avec la syntaxe PlantUML :
+
+@startuml
+class Utilisateur {
+  +id: int
+  +nom: string
+  +email: string
+  +seConnecter(): void
+}
+@enduml`
+      },
+      {
+        title: "Diagramme de classes",
+        body: `
+<p>Le <strong>diagramme de classes</strong> est le plus utilisé en UML. Il représente les <em>entités</em> de ton système (les "objets") et leurs <em>propriétés</em>.</p>
+<h4>Anatomie d'une classe</h4>
+<p>Une classe est une boîte à 3 compartiments :</p>
+<ul>
+  <li><strong>Nom</strong> de la classe (en haut)</li>
+  <li><strong>Attributs</strong> (propriétés) : <code>nom: type</code></li>
+  <li><strong>Méthodes</strong> (actions) : <code>nomMethode(): typeRetour</code></li>
+</ul>
+<h4>Visibilité des membres</h4>
+<ul>
+  <li><code>+</code> <strong>public</strong> — accessible partout</li>
+  <li><code>-</code> <strong>private</strong> — accessible uniquement dans la classe</li>
+  <li><code>#</code> <strong>protected</strong> — accessible dans la classe et ses sous-classes</li>
+</ul>
+<h4>Exemple concret</h4>
+<p>Pour une appli de e-commerce, on modélise d'abord les classes principales : <code>Produit</code>, <code>Commande</code>, <code>Utilisateur</code>…</p>`,
+        code: `@startuml
+class Produit {
+  -id: int
+  +nom: string
+  +prix: float
+  +stock: int
+  +getDetails(): string
+}
+
+class Commande {
+  -id: int
+  +date: Date
+  +statut: string
+  +calculerTotal(): float
+}
+
+class Utilisateur {
+  -id: int
+  +email: string
+  -motDePasse: string
+  +seConnecter(): bool
+}
+@enduml`
+      },
+      {
+        title: "Association & Navigabilité",
+        body: `
+<p>Une <strong>association</strong> est un lien entre deux classes. C'est la relation la plus simple : « A connaît B ».</p>
+<h4>Types de flèches</h4>
+<ul>
+  <li><code>A ——— B</code> Association simple bidirectionnelle</li>
+  <li><code>A ——→ B</code> Association dirigée : A connaît B, mais pas l'inverse</li>
+  <li><code>A - - → B</code> Dépendance : A utilise B temporairement</li>
+</ul>
+<h4>Agrégation vs Composition</h4>
+<p>Ce sont deux types d'associations qui expriment une relation <strong>"contient"</strong> :</p>
+<ul>
+  <li>🔷 <strong>Agrégation</strong> (losange vide <code>◇</code>) : le tout contient les parties, mais les parties peuvent <em>exister indépendamment</em>. <br>Ex : une <code>Équipe</code> contient des <code>Joueur</code>s — un joueur peut exister sans équipe.</li>
+  <li>🔶 <strong>Composition</strong> (losange plein <code>◆</code>) : les parties n'existent <em>pas sans le tout</em>. <br>Ex : une <code>Commande</code> contient des <code>LigneCommande</code> — une ligne n'existe pas sans sa commande.</li>
+</ul>`,
+        code: `@startuml
+' Composition : LigneCommande appartient à Commande
+Commande "1" *-- "1..*" LigneCommande : contient
+
+' Agrégation : Joueur peut exister sans Équipe
+Equipe "1" o-- "0..*" Joueur : regroupe
+
+' Association dirigée : Commande connaît Utilisateur
+Commande "0..*" --> "1" Utilisateur : passée par
+@enduml`
+      },
+      {
+        title: "Cardinalités : 1-1, 1-N, N-N",
+        body: `
+<p>Les <strong>cardinalités</strong> (ou multiplicités) précisent <em>combien</em> d'instances d'une classe peuvent être associées à une autre. C'est le cœur de la modélisation.</p>
+<h4>Notation</h4>
+<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:0.9rem">
+  <tr style="background:rgba(255,255,255,0.05)">
+    <th style="padding:8px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.1)">Notation</th>
+    <th style="padding:8px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.1)">Signification</th>
+  </tr>
+  <tr><td style="padding:8px"><code>1</code></td><td style="padding:8px">Exactement 1</td></tr>
+  <tr><td style="padding:8px"><code>0..1</code></td><td style="padding:8px">0 ou 1 (optionnel)</td></tr>
+  <tr><td style="padding:8px"><code>1..*</code></td><td style="padding:8px">1 ou plusieurs (au moins 1)</td></tr>
+  <tr><td style="padding:8px"><code>0..*</code> ou <code>*</code></td><td style="padding:8px">0 ou plusieurs (aucune contrainte)</td></tr>
+  <tr><td style="padding:8px"><code>2..5</code></td><td style="padding:8px">Entre 2 et 5</td></tr>
+</table>
+<h4>Les 3 grands types de relations</h4>
+<ul>
+  <li>🟢 <strong>1-1 (One-to-One)</strong> : un utilisateur a <em>un seul</em> profil, un profil appartient à <em>un seul</em> utilisateur.</li>
+  <li>🟡 <strong>1-N (One-to-Many)</strong> : un auteur écrit <em>plusieurs</em> articles, chaque article a <em>un seul</em> auteur.</li>
+  <li>🔴 <strong>N-N (Many-to-Many)</strong> : un étudiant suit <em>plusieurs</em> cours, un cours est suivi par <em>plusieurs</em> étudiants.</li>
+</ul>`,
+        code: `@startuml
+' 1-1 : Un utilisateur a exactement un profil
+Utilisateur "1" -- "1" Profil
+
+' 1-N : Un auteur écrit plusieurs articles
+Auteur "1" -- "0..*" Article
+
+' N-N : Un étudiant suit plusieurs cours
+Etudiant "0..*" -- "0..*" Cours
+' (En base de données, le N-N devient une table de liaison !)
+@enduml`
+      },
+      {
+        title: "Gérer le N-N en base de données",
+        body: `
+<p>En base de données relationnelle (SQL), une relation <strong>N-N ne peut pas exister directement</strong>. Il faut la décomposer en deux relations 1-N via une <strong>table de liaison</strong> (aussi appelée table pivot ou table d'association).</p>
+<h4>Exemple : Étudiant ↔ Cours</h4>
+<p>La relation "un étudiant suit plusieurs cours, un cours a plusieurs étudiants" se modélise en 3 tables :</p>
+<ul>
+  <li><code>etudiant</code> (id, nom, email)</li>
+  <li><code>cours</code> (id, titre, description)</li>
+  <li><code>inscription</code> (etudiant_id, cours_id, date_inscription) ← <strong>table pivot</strong></li>
+</ul>
+<h4>La table pivot peut avoir ses propres attributs</h4>
+<p>C'est un avantage de cette approche : on peut stocker des infos sur la <em>relation elle-même</em>, pas seulement sur les entités. Ici <code>date_inscription</code> ou <code>note_finale</code> appartiennent à la relation, pas à l'étudiant ni au cours.</p>
+<h4>Règle générale</h4>
+<p>Chaque table pivot contient les <strong>clés étrangères</strong> (<em>foreign keys</em>) des deux tables qu'elle relie. La clé primaire peut être composite : <code>(etudiant_id, cours_id)</code>.</p>`,
+        code: `-- Table pivot pour une relation N-N
+CREATE TABLE inscription (
+  etudiant_id INT REFERENCES etudiant(id),
+  cours_id    INT REFERENCES cours(id),
+  date_inscription DATE,
+  note_finale DECIMAL(4,2),
+  PRIMARY KEY (etudiant_id, cours_id)
+);
+
+-- En UML, ça donne :
+-- Etudiant "1" *-- "0..*" Inscription
+-- Cours    "1" *-- "0..*" Inscription`
+      },
+      {
+        title: "Diagramme Entité-Association (ERD)",
+        body: `
+<p>Le <strong>diagramme ERD</strong> (Entity-Relationship Diagram) est spécifiquement conçu pour modéliser des bases de données. Il est proche du diagramme de classes mais avec une notation différente.</p>
+<h4>Éléments principaux</h4>
+<ul>
+  <li>🟦 <strong>Entité</strong> (rectangle) : une table de la BDD. Ex: <code>Utilisateur</code></li>
+  <li>🔶 <strong>Attribut</strong> (ovale) : une colonne. Le <u>souligné</u> indique la clé primaire</li>
+  <li>🔷 <strong>Association</strong> (losange) : une relation entre entités</li>
+</ul>
+<h4>Notation de Chen vs notation Crow's Foot</h4>
+<p>Il existe deux notations populaires :</p>
+<ul>
+  <li><strong>Chen</strong> (classique) : entités en rectangles, relations en losanges, cardinalités notées 1 / N / M</li>
+  <li><strong>Crow's Foot</strong> (moderne, utilisé par Figma, dbdiagram.io…) : les cardinalités sont représentées par des "pattes de corbeau" sur les lignes</li>
+</ul>
+<p>En pratique aujourd'hui, on utilise surtout la notation <strong>Crow's Foot</strong> avec des outils comme <strong>dbdiagram.io</strong>, Lucidchart, ou drawSQL.</p>`,
+        code: `// Exemple avec dbdiagram.io (notation DBML)
+Table utilisateur {
+  id int [pk, increment]
+  nom varchar(100)
+  email varchar(150) [unique]
+  created_at timestamp
+}
+
+Table article {
+  id int [pk, increment]
+  titre varchar(200)
+  contenu text
+  auteur_id int [ref: > utilisateur.id]  // N-1
+}
+
+Table tag {
+  id int [pk]
+  nom varchar(50)
+}
+
+Table article_tag {
+  article_id int [ref: > article.id]  // table pivot N-N
+  tag_id     int [ref: > tag.id]
+}`
+      },
+      {
+        title: "Cas pratique : modéliser une appli",
+        body: `
+<p>Mettons en pratique avec un exemple réel : une application de <strong>blog</strong> avec utilisateurs, articles, commentaires et tags.</p>
+<h4>Étape 1 — Lister les entités</h4>
+<p>On identifie les "noms" principaux du domaine :</p>
+<ul>
+  <li><code>Utilisateur</code> — peut être auteur ou lecteur</li>
+  <li><code>Article</code> — écrit par un utilisateur</li>
+  <li><code>Commentaire</code> — posté par un utilisateur sur un article</li>
+  <li><code>Tag</code> — catégorie/label d'un article</li>
+</ul>
+<h4>Étape 2 — Définir les relations</h4>
+<ul>
+  <li>Un <strong>Utilisateur</strong> écrit <strong>0..* Articles</strong> → 1-N</li>
+  <li>Un <strong>Article</strong> a <strong>0..* Commentaires</strong> → 1-N</li>
+  <li>Un <strong>Utilisateur</strong> poste <strong>0..* Commentaires</strong> → 1-N</li>
+  <li>Un <strong>Article</strong> a <strong>0..* Tags</strong>, un <strong>Tag</strong> est sur <strong>0..* Articles</strong> → N-N (table pivot <code>article_tag</code>)</li>
+</ul>
+<h4>Étape 3 — Repérer les attributs clés</h4>
+<p>Pour chaque entité : quelle est la <strong>clé primaire</strong> ? Quelles sont les <strong>clés étrangères</strong> ? Quels attributs portent de l'information utile ?</p>
+<h4>Conseil</h4>
+<p>Commence toujours par un schéma papier ou sur <a href="https://dbdiagram.io" target="_blank" rel="noopener noreferrer">dbdiagram.io</a> avant d'écrire la moindre ligne de SQL.</p>`,
+        code: `@startuml
+class Utilisateur {
+  +id: int
+  +nom: string
+  +email: string
+}
+
+class Article {
+  +id: int
+  +titre: string
+  +contenu: text
+  +createdAt: Date
+}
+
+class Commentaire {
+  +id: int
+  +contenu: string
+  +createdAt: Date
+}
+
+class Tag {
+  +id: int
+  +nom: string
+}
+
+' Relations
+Utilisateur "1" --> "0..*" Article : rédige
+Utilisateur "1" --> "0..*" Commentaire : poste
+Article    "1" --> "0..*" Commentaire : reçoit
+Article  "0..*" --> "0..*" Tag : classé par
+@enduml`
+      }
+    ]
   }
 };
