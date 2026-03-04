@@ -21,11 +21,14 @@
       <button id="tabMissions" class="app-tab active">🎯 Missions</button>
       <button id="tabCours"    class="app-tab">📚 Cours</button>
     </nav>
-    <div class="header-right"><!-- espace vide pour centrer les tabs --></div>
+    <div class="header-right">
+      <button id="btnMenu" class="btn-menu" aria-label="Menu">☰</button>
+    </div>
   </header>
 
   <!-- ══════════════ APP BODY ══════════════ -->
   <div class="app-body">
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
 
     <!-- ───── VUE MISSIONS ───── -->
     <div id="viewMissions" class="view">

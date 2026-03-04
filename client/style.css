@@ -645,12 +645,81 @@ body {
 }
 
 /* ═══════════════════════════════════════════
-   RESPONSIVE
+   RESPONSIVE — MOBILE
 ═══════════════════════════════════════════ */
+
+/* Bouton hamburger — caché sur desktop */
+.btn-menu {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  line-height: 1;
+}
+.btn-menu:hover { background: var(--surface2); }
+
+/* Overlay sombre quand sidebar ouverte */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: var(--header-h);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 99;
+  backdrop-filter: blur(2px);
+}
+.sidebar-overlay.active { display: block; }
+
 @media (max-width: 700px) {
-  :root { --sidebar-w: 200px; }
-  .content { padding: 20px 18px; }
-  .app-tab { padding: 6px 14px; font-size: 0.8rem; }
-  .mission-title { font-size: 1.2rem; }
-  .chapter-title { font-size: 1.3rem; }
+
+  /* Header */
+  .header { padding: 0 12px; grid-template-columns: auto 1fr auto; }
+  .header-brand { order: 1; }
+  .app-tabs { order: 2; justify-content: center; }
+  .header-right { order: 3; }
+  .app-tab { padding: 6px 12px; font-size: 0.78rem; }
+  .btn-menu { display: flex; align-items: center; }
+
+  /* Sidebar — slide-in overlay */
+  .sidebar {
+    position: fixed;
+    top: var(--header-h);
+    left: -110%;
+    width: 78vw;
+    max-width: 300px;
+    height: calc(100% - var(--header-h));
+    z-index: 100;
+    transition: left 0.25s cubic-bezier(0.4,0,0.2,1);
+    box-shadow: 4px 0 24px rgba(0,0,0,0.5);
+  }
+  .sidebar.open { left: 0; }
+
+  /* Content plein écran */
+  .view { width: 100%; }
+  .content { padding: 16px 14px; }
+
+  /* Éditeur plus petit */
+  .editor { min-height: 120px; font-size: 0.82rem; }
+
+  /* Texte */
+  .mission-title { font-size: 1.15rem; }
+  .statement { padding: 14px 14px; font-size: 0.88rem; }
+
+  /* Badges compacts */
+  .badge { padding: 2px 9px; font-size: 0.68rem; }
+
+  /* Bouton tester plein largeur */
+  .actions { flex-direction: column; }
+  .btn { width: 100%; justify-content: center; }
+
+  /* Cours */
+  .chapter-title { font-size: 1.15rem; }
+  .chapter-code-wrapper { margin: 0 -14px; border-radius: 0; }
+  .chapter-nav { padding: 12px 0; }
 }

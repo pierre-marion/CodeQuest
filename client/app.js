@@ -27,6 +27,30 @@ const courseTracksEl  = document.getElementById("courseTracks");
 const chaptersListEl  = document.getElementById("chaptersList");
 const courseBodyEl    = document.getElementById("courseBody");
 
+// ── Mobile sidebar ────────────────────────────────────────
+const btnMenu        = document.getElementById("btnMenu");
+const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+function getSidebars() {
+  return document.querySelectorAll(".sidebar");
+}
+
+function openSidebar() {
+  getSidebars().forEach(s => s.classList.add("open"));
+  sidebarOverlay.classList.add("active");
+}
+
+function closeSidebar() {
+  getSidebars().forEach(s => s.classList.remove("open"));
+  sidebarOverlay.classList.remove("active");
+}
+
+btnMenu.addEventListener("click", () => {
+  const isOpen = document.querySelector(".sidebar")?.classList.contains("open");
+  isOpen ? closeSidebar() : openSidebar();
+});
+sidebarOverlay.addEventListener("click", closeSidebar);
+
 let currentTrack        = "html";
 let currentMissionId    = null;
 let allMissions         = [];
@@ -93,6 +117,7 @@ function renderMissions(track) {
       li.classList.add("active");
       currentMissionId = m.id;
       await loadMission(currentMissionId);
+      closeSidebar();
     });
 
     missionsListEl.appendChild(li);
@@ -195,6 +220,7 @@ function renderCourseChapters(trackKey) {
       li.classList.add("active");
       currentChapterIndex = idx;
       renderChapter(trackKey, idx);
+      closeSidebar();
     });
     chaptersListEl.appendChild(li);
   });
