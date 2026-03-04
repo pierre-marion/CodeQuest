@@ -5,7 +5,7 @@ export const missions = [
   {
     id: 1, track: "html", difficulty: "easy",
     title: "Structure de base HTML",
-    statement: `<p>En HTML, la <strong>structure sémantique</strong> est essentielle. Les balises <code>&lt;header&gt;</code>, <code>&lt;main&gt;</code> et <code>&lt;footer&gt;</code> décrivent le rôle de chaque zone de la page.</p><p>Complète le squelette HTML en ajoutant ces 4 éléments :</p><div class="mission-example"><strong>Structure attendue :</strong><br><code>&lt;header&gt;⬦&lt;/header&gt;</code><br><code>&lt;main&gt;&lt;h1&gt;Mon titre&lt;/h1&gt;&lt;/main&gt;</code><br><code>&lt;footer&gt;⬦&lt;/footer&gt;</code></div><div class="mission-hint">�x� Place <code>&lt;header&gt;</code>, <code>&lt;main&gt;</code> et <code>&lt;footer&gt;</code> dans le <code>&lt;body&gt;</code>. Le <code>&lt;h1&gt;</code> va dans <code>&lt;main&gt;</code>.</div>`,
+    statement: `<p>En HTML, la <strong>structure sémantique</strong> est essentielle. Les balises <code>&lt;header&gt;</code>, <code>&lt;main&gt;</code> et <code>&lt;footer&gt;</code> décrivent le rôle de chaque zone de la page.</p><p>Complète le squelette HTML en ajoutant ces 4 éléments :</p><div class="mission-example"><strong>Structure attendue :</strong><br><code>&lt;header&gt;…&lt;/header&gt;</code><br><code>&lt;main&gt;&lt;h1&gt;Mon titre&lt;/h1&gt;&lt;/main&gt;</code><br><code>&lt;footer&gt;…&lt;/footer&gt;</code></div><div class="mission-hint">�x� Place <code>&lt;header&gt;</code>, <code>&lt;main&gt;</code> et <code>&lt;footer&gt;</code> dans le <code>&lt;body&gt;</code>. Le <code>&lt;h1&gt;</code> va dans <code>&lt;main&gt;</code>.</div>`,
     starterCode: `<!doctype html>
 <html lang="fr">
 <head>
@@ -28,7 +28,7 @@ export const missions = [
   {
     id: 2, track: "html", difficulty: "easy",
     title: "Liste de navigation",
-    statement: `<p>Une barre de navigation contient généralement une liste de liens. On utilise <code>&lt;nav&gt;</code> pour la zone de navigation, <code>&lt;ul&gt;</code> pour la liste et <code>&lt;a&gt;</code> pour chaque lien.</p><p>Ajoute dans le <code>&lt;nav&gt;</code> fourni une liste de <strong>3 liens</strong>.</p><div class="mission-example"><strong>Exemple :</strong><br><code>&lt;ul&gt;</code><br>&nbsp;&nbsp;<code>&lt;li&gt;&lt;a href="/"&gt;Accueil&lt;/a&gt;&lt;/li&gt;</code><br>&nbsp;&nbsp;<code>&lt;li&gt;&lt;a href="/about"&gt;ì propos&lt;/a&gt;&lt;/li&gt;</code><br>&nbsp;&nbsp;<code>&lt;li&gt;&lt;a href="/contact"&gt;Contact&lt;/a&gt;&lt;/li&gt;</code><br><code>&lt;/ul&gt;</code></div><div class="mission-hint">�x� Le test vérifie la présence de 3 balises <code>&lt;a&gt;</code>.</div>`,
+    statement: `<p>Une barre de navigation contient généralement une liste de liens. On utilise <code>&lt;nav&gt;</code> pour la zone de navigation, <code>&lt;ul&gt;</code> pour la liste et <code>&lt;a&gt;</code> pour chaque lien.</p><p>Ajoute dans le <code>&lt;nav&gt;</code> fourni une liste de <strong>3 liens</strong>.</p><div class="mission-example"><strong>Exemple :</strong><br><code>&lt;ul&gt;</code><br>&nbsp;&nbsp;<code>&lt;li&gt;&lt;a href="/"&gt;Accueil&lt;/a&gt;&lt;/li&gt;</code><br>&nbsp;&nbsp;<code>&lt;li&gt;&lt;a href="/about"&gt;À propos&lt;/a&gt;&lt;/li&gt;</code><br>&nbsp;&nbsp;<code>&lt;li&gt;&lt;a href="/contact"&gt;Contact&lt;/a&gt;&lt;/li&gt;</code><br><code>&lt;/ul&gt;</code></div><div class="mission-hint">�x� Le test vérifie la présence de 3 balises <code>&lt;a&gt;</code>.</div>`,
     starterCode: `<nav>
   <!-- ton code ici -->
 </nav>`,
@@ -137,7 +137,7 @@ export const missions = [
   {
     id: 10, track: "html", difficulty: "hard",
     title: "Layout sémantique complet",
-    statement: `<p>Un layout <strong>sémantique complet</strong> utilise les balises HTML5 pour décrire chaque zone de la page. C'est la base de tout bon document web.</p><p>Construis la structure suivante dans le <code>&lt;body&gt;</code> :</p><div class="mission-example"><code>&lt;header&gt;</code> �  en-tête du site<br><code>&lt;nav&gt;</code> �  navigation principale<br><code>&lt;main&gt;</code><br>&nbsp;&nbsp;<code>&lt;section&gt;</code>⬦<code>&lt;/section&gt;</code> (2 fois)<br><code>&lt;aside&gt;</code> �  contenu secondaire<br><code>&lt;footer&gt;</code> �  pied de page</div><div class="mission-hint">�x� Les 2 <code>&lt;section&gt;</code> peuvent être à l'intérieur ou à côté de <code>&lt;main&gt;</code>.</div>`,
+    statement: `<p>Un layout <strong>sémantique complet</strong> utilise les balises HTML5 pour décrire chaque zone de la page. C'est la base de tout bon document web.</p><p>Construis la structure suivante dans le <code>&lt;body&gt;</code> :</p><div class="mission-example"><code>&lt;header&gt;</code> �  en-tête du site<br><code>&lt;nav&gt;</code> �  navigation principale<br><code>&lt;main&gt;</code><br>&nbsp;&nbsp;<code>&lt;section&gt;</code>…<code>&lt;/section&gt;</code> (2 fois)<br><code>&lt;aside&gt;</code> �  contenu secondaire<br><code>&lt;footer&gt;</code> �  pied de page</div><div class="mission-hint">�x� Les 2 <code>&lt;section&gt;</code> peuvent être à l'intérieur ou à côté de <code>&lt;main&gt;</code>.</div>`,
     starterCode: `<!doctype html>
 <html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Mission 10</title></head>
 <body>
