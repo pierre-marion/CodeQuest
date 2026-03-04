@@ -313,7 +313,7 @@ body {
 .badge-diff-medium { background: rgba(255,201,71,0.1);  border-color: rgba(255,201,71,0.25);  color: var(--yellow); }
 .badge-diff-hard   { background: rgba(255,92,92,0.1);   border-color: rgba(255,92,92,0.25);   color: var(--red); }
 
-#missionContent, #courseBody {
+#missionContent {
   width: 100%;
   flex: 1;
   min-height: 0;
@@ -324,9 +324,20 @@ body {
   scrollbar-width: thin;
   scrollbar-color: var(--surface3) transparent;
 }
-#missionContent::-webkit-scrollbar,
+#missionContent::-webkit-scrollbar { width: 5px; }
+#missionContent::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 3px; }
+
+#courseBody {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 24px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--surface3) transparent;
+}
 #courseBody::-webkit-scrollbar { width: 5px; }
-#missionContent::-webkit-scrollbar-thumb,
 #courseBody::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 3px; }
 
 .mission-title {
