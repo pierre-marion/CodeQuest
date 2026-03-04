@@ -997,137 +997,606 @@ console.log(premier.name); // "Alice"
 console.log(reste.length); // 1 (Clara)`
       },
       {
-        title: "Objets & Déstructuration",
+        title: "Objets : bases & accès",
         body: `
-<p>Un <strong>objet</strong> en JavaScript est une collection de paires <em>clé : valeur</em>. C'est la structure de données la plus utilisée du langage — presque tout est un objet en JS.</p>
+<p>Un <strong>objet</strong> en JS est une collection de paires <em>clé → valeur</em>. C'est la structure de données centrale du langage — les tableaux, les fonctions, les dates… sont tous des objets.</p>
 
 <h4>Créer un objet</h4>
-<p>On crée un objet avec des accolades <code>{ }</code>. Chaque propriété a un nom (la clé) et une valeur. Pour bien lire ton code, <strong>écris chaque propriété sur sa propre ligne</strong> :</p>
+<p>On utilise les accolades <code>{ }</code>. Bonne pratique : une propriété par ligne :</p>
 <ul>
-  <li><code>const user = { id: 1, name: "Pierre" }</code> → difficile à lire si beaucoup de propriétés</li>
-  <li>Préfère la version multi-lignes montrée dans l'exemple ci-dessous</li>
+  <li>La <strong>valeur</strong> peut être n'importe quel type : string, number, boolean, tableau, autre objet, fonction…</li>
+  <li><strong>Raccourci ES6</strong> : si la variable et la clé ont le <em>même nom</em>, tu peux écrire juste <code>{ nom }</code> au lieu de <code>{ nom: nom }</code>.</li>
+  <li><strong>Clé calculée</strong> : <code>{ [maVariable]: valeur }</code> — la clé est une expression.</li>
 </ul>
 
 <h4>Accéder aux valeurs</h4>
 <ul>
   <li><code>user.name</code> — notation pointée (la plus courante)</li>
-  <li><code>user["name"]</code> — notation crochet (utile si la clé est dans une variable)</li>
+  <li><code>user["name"]</code> — notation crochet (obligatoire si la clé est dans une variable ou contient des espaces/tirets)</li>
+  <li><code>user?.address?.city</code> — <strong>optional chaining</strong> : retourne <code>undefined</code> au lieu de planter si <code>address</code> n'existe pas</li>
+  <li><code>user.score ?? 0</code> — <strong>nullish coalescing</strong> : valeur par défaut si <code>null</code> ou <code>undefined</code></li>
 </ul>
 
-<h4>Modifier un objet</h4>
+<h4>Modifier, ajouter, supprimer</h4>
 <ul>
   <li>Modifier : <code>user.age = 22</code></li>
-  <li>Ajouter une propriété : <code>user.email = "p@mail.com"</code></li>
+  <li>Ajouter : <code>user.email = "p@mail.com"</code></li>
   <li>Supprimer : <code>delete user.email</code></li>
-</ul>
-
-<h4>Déstructuration — extraire des propriétés facilement</h4>
-<p>Au lieu d'écrire <code>user.name</code>, <code>user.age</code>... on peut extraire plusieurs propriétés en une ligne :</p>
-<ul>
-  <li><code>const { name, age } = user</code> → crée directement les variables <code>name</code> et <code>age</code></li>
-  <li>Avec valeur par défaut : <code>const { role = "user" } = user</code> → si <code>role</code> n'existe pas, vaut "user"</li>
-  <li>Avec renommage : <code>const { name: userName } = user</code> → la variable s'appelle <code>userName</code></li>
-</ul>
-
-<h4>Copier un objet sans le modifier (spread)</h4>
-<p><code>{ ...user }</code> crée une <strong>copie nouvelle</strong> de l'objet — l'original reste intact. On peut aussi ajouter ou écraser des propriétés en même temps.</p>
-
-<h4>Object.keys / values / entries</h4>
-<p>Ces méthodes permettent de parcourir un objet comme un tableau :</p>
-<ul>
-  <li><code>Object.keys(obj)</code> → tableau des noms des propriétés</li>
-  <li><code>Object.values(obj)</code> → tableau des valeurs</li>
-  <li><code>Object.entries(obj)</code> → tableau de paires <code>[clé, valeur]</code></li>
+  <li>Vérifier si une clé existe : <code>"age" in user</code> → <code>true</code></li>
 </ul>`,
-        code: `// ✅ Création d'objet — une propriété par ligne, bien lisible
+        code: `// ────────────────────────────────
+// Création
+// ────────────────────────────────
+const ville = "Paris";
+const zip   = "75001";
+
 const user = {
   id:    1,
-  name:  "Pierre",
-  age:   21,
-  role:  "student",
-  address: {
-    city:    "Paris",
-    zip:     "75001",
+  name:  "Pierre",      // string
+  age:   21,            // number
+  actif: true,          // boolean
+  scores: [88, 92, 76], // tableau
+  address: {            // objet imbriqué
+    ville,              // raccourci ES6 : ville: ville
+    zip,
     country: "France"
   }
 };
 
-// Accès aux propriétés
-console.log(user.name);            // "Pierre"
-console.log(user.address.city);    // "Paris"
-const key = "age";
-console.log(user[key]);            // 21
-
-// Modifier / ajouter
-user.age   = 22;
-user.email = "pierre@mail.com";
-
-// Supprimer
-delete user.email;
+// Raccourci : clé calculée dynamiquement
+const champDB = "email";
+const data = { [champDB]: "pierre@mail.com" };
+// → { email: "pierre@mail.com" }
 
 // ────────────────────────────────
-// Déstructuration
+// Accès
 // ────────────────────────────────
+console.log(user.name);          // "Pierre"
+console.log(user.address.ville); // "Paris"
 
-// Extraction simple
+const prop = "age";
+console.log(user[prop]);         // 21 — clé dans une variable
+
+// Optional chaining — ne plante pas si address est undefined
+console.log(user?.address?.city); // undefined (pas de city)
+console.log(user?.phone?.mobile); // undefined (pas de phone)
+
+// Nullish coalescing — défaut si null/undefined
+console.log(user.score ?? 0);    // 0 (score n'existe pas)
+console.log(user.age ?? 18);     // 21 (age existe → on le garde)
+
+// ────────────────────────────────
+// Modification / ajout / suppression
+// ────────────────────────────────
+user.age   = 22;                  // modifier
+user.email = "pierre@mail.com";   // ajouter
+delete user.email;                // supprimer
+
+console.log("age" in user);      // true
+console.log("email" in user);    // false`
+      },
+      {
+        title: "Déstructuration & Spread",
+        body: `
+<p>La <strong>déstructuration</strong> extrait des propriétés d'un objet directement dans des variables. Le <strong>spread</strong> (<code>...</code>) copie ou fusionne des objets. Ce sont les deux outils les plus utilisés en JS moderne.</p>
+
+<h4>Déstructuration</h4>
+<ul>
+  <li><code>const { name, age } = user</code> → extrait <code>name</code> et <code>age</code> en une ligne</li>
+  <li><strong>Valeur par défaut</strong> : <code>const { role = "user" } = user</code> → si <code>role</code> n'existe pas → "user"</li>
+  <li><strong>Renommage</strong> : <code>const { name: userName } = user</code> → la variable s'appelle <code>userName</code></li>
+  <li><strong>Imbriqué</strong> : <code>const { address: { city } } = user</code></li>
+  <li><strong>En paramètre de fonction</strong> : <code>function f({ name, age }) { ... }</code> → très courant dans React/Angular</li>
+  <li><strong>Rest</strong> : <code>const { id, ...reste } = user</code> → <code>reste</code> contient toutes les autres propriétés</li>
+</ul>
+
+<h4>Spread <code>{ ...obj }</code></h4>
+<ul>
+  <li><strong>Copier</strong> un objet : <code>const copie = { ...user }</code> (copie superficielle)</li>
+  <li><strong>Fusionner</strong> : <code>const merge = { ...defaults, ...overrides }</code></li>
+  <li><strong>Mettre à jour</strong> sans muter l'original : <code>{ ...user, age: 23 }</code></li>
+</ul>
+<p>⚠️ Le spread ne fait qu'une <strong>copie superficielle</strong> : les objets imbriqués sont partagés par référence. Pour une copie profonde : <code>structuredClone(obj)</code>.</p>`,
+        code: `const user = {
+  id:   1,
+  name: "Pierre",
+  age:  21,
+  role: "student",
+  address: { city: "Paris", zip: "75001" }
+};
+
+// ────────────────────────────────
+// Déstructuration basique
+// ────────────────────────────────
 const { name, age } = user;
 console.log(name); // "Pierre"
-console.log(age);  // 22
+console.log(age);  // 21
 
-// Valeur par défaut si la propriété n'existe pas
-const { role = "user", score = 0 } = user;
-console.log(role);  // "student" (existe dans user)
-console.log(score); // 0 (n'existe pas → valeur par défaut)
+// Valeur par défaut
+const { score = 0, role = "inconnu" } = user;
+console.log(score); // 0  (n'existe pas → défaut)
+console.log(role);  // "student" (existe → on garde)
 
-// Renommage : la variable s'appelle "userName", pas "name"
-const { name: userName } = user;
+// Renommage
+const { name: userName, age: userAge } = user;
 console.log(userName); // "Pierre"
 
-// Déstructuration imbriquée
+// Imbriqué
 const { address: { city, zip } } = user;
 console.log(city); // "Paris"
-console.log(zip);  // "75001"
 
-// Dans les paramètres d'une fonction
-function afficherUser({ name, age, role = "inconnu" }) {
-  console.log(\`\${name} (\${age} ans) — rôle : \${role}\`);
+// Rest : tout le reste dans un objet
+const { id, ...profil } = user;
+console.log(id);     // 1
+console.log(profil); // { name, age, role, address } — sans id
+
+// En paramètre de fonction (★ très courant en React/Angular)
+function afficher({ name, age, role = "visiteur" }) {
+  return \`\${name}, \${age} ans — \${role}\`;
 }
-afficherUser(user); // "Pierre (22 ans) — rôle : student"
+console.log(afficher(user)); // "Pierre, 21 ans — student"
 
 // ────────────────────────────────
-// Copier et modifier sans toucher l'original
+// Spread
 // ────────────────────────────────
-const userModifie = {
-  ...user,          // copie toutes les propriétés de user
-  age:   23,        // écrase l'âge
-  email: "p@x.com"  // ajoute une nouvelle propriété
+
+// Copier
+const copie = { ...user };
+copie.age = 99;
+console.log(user.age); // 21 — original intact
+
+// Fusionner deux objets (les dernières clés écrasent)
+const defaults = { theme: "dark", lang: "fr", notifs: true };
+const prefs    = { lang: "en", notifs: false };
+const config   = { ...defaults, ...prefs };
+// → { theme: "dark", lang: "en", notifs: false }
+
+// Mettre à jour sans muter
+const updated = { ...user, age: 22, email: "p@mail.com" };
+// user est toujours { age: 21, pas d'email }
+
+// ⚠️ Copie superficielle : address est partagé
+const clone = { ...user };
+clone.address.city = "Lyon"; // ← MODIFIE aussi user.address.city !
+
+// ✅ Copie profonde avec structuredClone (modern)
+const deepClone = structuredClone(user);
+deepClone.address.city = "Lyon"; // user.address.city reste "Paris" ✅`
+      },
+      {
+        title: "Méthodes & this",
+        body: `
+<p>Un objet peut contenir des <strong>fonctions</strong> — qu'on appelle des <strong>méthodes</strong>. À l'intérieur d'une méthode, <code>this</code> désigne l'objet sur lequel la méthode est appelée.</p>
+
+<h4>Définir des méthodes</h4>
+<ul>
+  <li>Syntaxe raccourcie ES6 : <code>{ saluer() { ... } }</code> — à préférer</li>
+  <li>Ancienne syntaxe : <code>{ saluer: function() { ... } }</code></li>
+  <li>⚠️ <strong>Arrow function dans un objet</strong> : <code>{ saluer: () => { ... } }</code> — <code>this</code> ne pointe <strong>pas</strong> vers l'objet, mais vers le contexte extérieur !</li>
+</ul>
+
+<h4>Le mot-clé <code>this</code></h4>
+<p><code>this</code> change selon comment la fonction est <em>appelée</em>, pas où elle est définie :</p>
+<ul>
+  <li>Dans une <strong>méthode</strong> d'objet → <code>this</code> = l'objet</li>
+  <li>Dans une <strong>arrow function</strong> → <code>this</code> hérité du contexte parent (lexical)</li>
+  <li>Dans un <strong>callback classique</strong> (setTimeout, forEach…) → <code>this</code> = <code>undefined</code> en strict mode</li>
+  <li>Avec <code>.bind(obj)</code> / <code>.call(obj)</code> / <code>.apply(obj)</code> → on force manuellement <code>this</code></li>
+</ul>
+
+<h4>Getters & Setters</h4>
+<p>Permettent d'exposer une propriété calculée ou de valider avant d'écrire :</p>
+<ul>
+  <li><code>get nomPropriété() { return ... }</code> — appelé comme une propriété : <code>obj.nomPropriété</code></li>
+  <li><code>set nomPropriété(val) { ... }</code> — appelé à l'assignment : <code>obj.nomPropriété = "x"</code></li>
+</ul>`,
+        code: `// ────────────────────────────────
+// Méthodes dans un objet
+// ────────────────────────────────
+const compteur = {
+  valeur: 0,
+
+  // Syntaxe raccourcie (préférée)
+  incrementer() {
+    this.valeur++;
+    return this; // ← retourner this permet le chaînage !
+  },
+
+  decrementer() {
+    this.valeur--;
+    return this;
+  },
+
+  reset() {
+    this.valeur = 0;
+    return this;
+  },
+
+  afficher() {
+    console.log("Valeur :", this.valeur);
+    return this;
+  }
 };
-// user est toujours intact ! userModifie est un nouvel objet.
+
+// Chaînage de méthodes (method chaining)
+compteur.incrementer().incrementer().incrementer().decrementer().afficher();
+// Valeur : 2
 
 // ────────────────────────────────
-// Parcourir un objet
+// this selon le contexte
 // ────────────────────────────────
-const produit = {
+const robot = {
+  nom: "R2D2",
+
+  // ✅ function classique → this = robot
+  direBonjour() {
+    console.log("Bonjour, je suis", this.nom);
+  },
+
+  // ❌ arrow function → this = contexte extérieur (window/undefined)
+  direBonjourArrow: () => {
+    console.log("Bonjour, je suis", this?.nom); // undefined !
+  },
+
+  // Problème courant : callback avec this
+  listerActions() {
+    const actions = ["avancer", "tourner", "s'arrêter"];
+
+    // ❌ function classique dans forEach : this perdu
+    // actions.forEach(function(a) { console.log(this.nom, a); });
+
+    // ✅ arrow function : hérite this de listerActions
+    actions.forEach(a => {
+      console.log(this.nom, "→", a);
+    });
+  }
+};
+
+robot.direBonjour();      // "Bonjour, je suis R2D2"
+robot.direBonjourArrow(); // "Bonjour, je suis undefined"
+robot.listerActions();    // "R2D2 → avancer", "R2D2 → tourner"...
+
+// ────────────────────────────────
+// Getters & Setters
+// ────────────────────────────────
+const utilisateur = {
+  _prenom: "Pierre",
+  _nom:    "Dupont",
+  _age:    17,
+
+  // Getter : propriété calculée
+  get nomComplet() {
+    return \`\${this._prenom} \${this._nom}\`;
+  },
+
+  // Setter avec validation
+  set age(val) {
+    if (val < 0 || val > 150) {
+      throw new Error("Âge invalide");
+    }
+    this._age = val;
+  },
+
+  get age() {
+    return this._age;
+  }
+};
+
+console.log(utilisateur.nomComplet); // "Pierre Dupont" — appelé sans ()
+utilisateur.age = 21;
+console.log(utilisateur.age);        // 21
+// utilisateur.age = -5;             // ← lance une erreur`
+      },
+      {
+        title: "Classes ES6",
+        body: `
+<p>Les <strong>classes</strong> ES6 sont la façon moderne de créer des objets en série avec le même "moule". C'est du <em>sucre syntaxique</em> sur le système de prototypes de JS.</p>
+
+<h4>Anatomie d'une classe</h4>
+<ul>
+  <li><code>constructor()</code> : méthode spéciale appelée à chaque <code>new</code> — initialise les propriétés</li>
+  <li><strong>Méthodes</strong> : définies directement dans le corps (sans <code>function</code>)</li>
+  <li><strong>Méthodes statiques</strong> : <code>static nomMethode()</code> — appelées sur la classe, pas sur l'instance</li>
+  <li><strong>Champs privés</strong> : <code>#nom</code> — inaccessibles depuis l'extérieur (ES2022)</li>
+</ul>
+
+<h4>new vs littéral</h4>
+<p>Utilise les classes quand tu as besoin de créer <strong>plusieurs instances</strong> du même type, chacune avec ses propres données. Pour un objet unique (config, service...), le littéral <code>{ }</code> suffit.</p>`,
+        code: `// ────────────────────────────────
+// Classe de base
+// ────────────────────────────────
+class Animal {
+  // Champ privé (ES2022) — inaccessible hors de la classe
+  #energie = 100;
+
+  constructor(nom, type) {
+    this.nom  = nom;
+    this.type = type;
+  }
+
+  // Méthode
+  manger(quantite = 10) {
+    this.#energie += quantite;
+    console.log(\`\${this.nom} mange. Énergie : \${this.#energie}\`);
+    return this; // chaînage
+  }
+
+  dormir() {
+    this.#energie += 30;
+    console.log(\`\${this.nom} dort. Énergie : \${this.#energie}\`);
+    return this;
+  }
+
+  sePresenter() {
+    console.log(\`Je suis \${this.nom}, un \${this.type}.\`);
+  }
+
+  // Getter
+  get energie() {
+    return this.#energie;
+  }
+
+  // Méthode statique — appelée sur Animal, pas sur une instance
+  static creerChat(nom) {
+    return new Animal(nom, "chat");
+  }
+}
+
+// Créer des instances
+const chien = new Animal("Rex", "chien");
+const chat  = Animal.creerChat("Mimi"); // méthode statique
+
+chien.sePresenter(); // "Je suis Rex, un chien."
+chien.manger(20).dormir(); // Énergie: 150
+console.log(chien.energie); // 150
+
+// console.log(chien.#energie); // ← SyntaxError : champ privé !
+
+// typeof et instanceof
+console.log(typeof chien);            // "object"
+console.log(chien instanceof Animal); // true
+
+// ────────────────────────────────
+// Classe utilitaire réaliste
+// ────────────────────────────────
+class Panier {
+  #articles = [];
+
+  ajouter(article) {
+    this.#articles.push(article);
+    return this;
+  }
+
+  supprimer(nom) {
+    this.#articles = this.#articles.filter(a => a.nom !== nom);
+    return this;
+  }
+
+  get total() {
+    return this.#articles.reduce((s, a) => s + a.prix, 0);
+  }
+
+  get nombreArticles() {
+    return this.#articles.length;
+  }
+
+  afficher() {
+    console.log("Panier :", this.#articles);
+    console.log("Total  :", this.total, "€");
+  }
+}
+
+const p = new Panier();
+p.ajouter({ nom: "Clavier", prix: 49 })
+ .ajouter({ nom: "Souris", prix: 29 })
+ .ajouter({ nom: "Écran",  prix: 199 });
+
+p.afficher(); // 3 articles, 277 €
+p.supprimer("Souris");
+console.log(p.total);          // 248 €
+console.log(p.nombreArticles); // 2`
+      },
+      {
+        title: "Héritage avec extends",
+        body: `
+<p>L'<strong>héritage</strong> permet à une classe enfant de réutiliser et d'étendre les fonctionnalités d'une classe parente. On utilise <code>extends</code> et <code>super()</code>.</p>
+
+<h4>Règles essentielles</h4>
+<ul>
+  <li><code>class Enfant extends Parent</code> — l'enfant hérite de toutes les méthodes du parent</li>
+  <li><code>super()</code> — <strong>obligatoire</strong> dans le <code>constructor</code> de l'enfant, doit être appelé avant d'utiliser <code>this</code></li>
+  <li><code>super.methode()</code> — appelle la version parente d'une méthode depuis l'enfant</li>
+  <li><strong>Surcharge</strong> : redéfinir une méthode dans l'enfant l'écrase pour les instances de cet enfant</li>
+</ul>
+
+<h4>Quand utiliser l'héritage ?</h4>
+<p>Quand tu as plusieurs types qui <strong>partagent un comportement commun</strong> mais ont des différences. Ex : <code>Animal</code> → <code>Chien</code>, <code>Chat</code>. Garde la hiérarchie peu profonde (1-2 niveaux max).</p>`,
+        code: `// ────────────────────────────────
+// Classe parente
+// ────────────────────────────────
+class Vehicule {
+  constructor(marque, vitesseMax) {
+    this.marque      = marque;
+    this.vitesseMax  = vitesseMax;
+    this.vitesse     = 0;
+  }
+
+  accelerer(n) {
+    this.vitesse = Math.min(this.vitesse + n, this.vitesseMax);
+    console.log(\`\${this.marque} : \${this.vitesse} km/h\`);
+  }
+
+  freiner(n) {
+    this.vitesse = Math.max(this.vitesse - n, 0);
+  }
+
+  infos() {
+    return \`\${this.marque} (max \${this.vitesseMax} km/h)\`;
+  }
+}
+
+// ────────────────────────────────
+// Classe enfant
+// ────────────────────────────────
+class Voiture extends Vehicule {
+  constructor(marque, vitesseMax, nbPortes) {
+    super(marque, vitesseMax); // ← OBLIGATOIRE — appelle le constructor parent
+    this.nbPortes = nbPortes;
+  }
+
+  // Surcharge de infos()
+  infos() {
+    return super.infos() + \` — \${this.nbPortes} portes\`;
+  }
+
+  klaxonner() {
+    console.log(\`\${this.marque} : Bip bip !\`);
+  }
+}
+
+class VoitureElectrique extends Voiture {
+  #batterie = 100; // %
+
+  constructor(marque, vitesseMax, nbPortes, autonomie) {
+    super(marque, vitesseMax, nbPortes);
+    this.autonomie = autonomie; // km
+  }
+
+  accelerer(n) {
+    super.accelerer(n); // appelle Voiture → Vehicule.accelerer
+    this.#batterie -= n * 0.1;
+    console.log(\`  Batterie : \${this.#batterie.toFixed(1)} %\`);
+  }
+
+  infos() {
+    return super.infos() + \` | Autonomie : \${this.autonomie} km\`;
+  }
+}
+
+// ────────────────────────────────
+// Utilisation
+// ────────────────────────────────
+const peugeot = new Voiture("Peugeot 208", 180, 5);
+const tesla   = new VoitureElectrique("Tesla Model 3", 250, 4, 580);
+
+console.log(peugeot.infos()); // "Peugeot 208 (max 180 km/h) — 5 portes"
+console.log(tesla.infos());   // "Tesla Model 3 (max 250 km/h) — 4 portes | Autonomie : 580 km"
+
+peugeot.accelerer(100); // "Peugeot 208 : 100 km/h"
+tesla.accelerer(80);    // "Tesla Model 3 : 80 km/h" + "Batterie : 92.0 %"
+
+peugeot.klaxonner();   // "Peugeot 208 : Bip bip !"
+// tesla.klaxonner();  // hérite aussi de Voiture ✅
+
+console.log(tesla instanceof VoitureElectrique); // true
+console.log(tesla instanceof Voiture);           // true ← héritage
+console.log(tesla instanceof Vehicule);          // true ← héritage transitif`
+      },
+      {
+        title: "Méthodes utiles de l'objet",
+        body: `
+<p>JavaScript expose plusieurs méthodes statiques sur <code>Object</code> pour inspecter, copier, transformer et protéger les objets.</p>
+
+<h4>Parcourir un objet</h4>
+<ul>
+  <li><code>Object.keys(obj)</code> → <code>["nom", "prix", "stock"]</code></li>
+  <li><code>Object.values(obj)</code> → <code>["Clavier", 49, 12]</code></li>
+  <li><code>Object.entries(obj)</code> → <code>[["nom","Clavier"], ["prix",49], ...]</code></li>
+  <li><code>Object.fromEntries(entries)</code> → reconstruit un objet depuis un tableau de paires</li>
+</ul>
+
+<h4>Copier et fusionner</h4>
+<ul>
+  <li><code>Object.assign(cible, source)</code> — copie les propriétés de <code>source</code> dans <code>cible</code> (mute la cible !)</li>
+  <li><code>{ ...obj }</code> — spread (copie superficielle, ne mute pas)</li>
+  <li><code>structuredClone(obj)</code> — copie profonde (objets imbriqués inclus)</li>
+</ul>
+
+<h4>Protéger un objet</h4>
+<ul>
+  <li><code>Object.freeze(obj)</code> — <strong>gel total</strong> : impossible d'ajouter, modifier ou supprimer des propriétés</li>
+  <li><code>Object.seal(obj)</code> — on peut modifier les valeurs existantes, mais pas ajouter/supprimer de clés</li>
+  <li><code>Object.isFrozen(obj)</code> / <code>Object.isSealed(obj)</code></li>
+</ul>
+
+<h4>Transformation avancée</h4>
+<ul>
+  <li><code>Object.fromEntries(map)</code> — convertit une <code>Map</code> en objet</li>
+  <li>Pattern courant : transformer les valeurs d'un objet avec <code>entries</code> + <code>map</code> + <code>fromEntries</code></li>
+</ul>`,
+        code: `const produit = {
   nom:   "Clavier",
   prix:  49.99,
-  stock: 12
+  stock: 12,
+  actif: true
 };
 
-Object.keys(produit).forEach(cle => {
-  console.log(cle); // "nom", "prix", "stock"
+// ────────────────────────────────
+// Parcourir
+// ────────────────────────────────
+console.log(Object.keys(produit));    // ["nom", "prix", "stock", "actif"]
+console.log(Object.values(produit));  // ["Clavier", 49.99, 12, true]
+
+Object.entries(produit).forEach(([cle, val]) => {
+  console.log(\`\${cle}: \${val}\`);
 });
 
-Object.entries(produit).forEach(([cle, valeur]) => {
-  console.log(\`\${cle} = \${valeur}\`);
-  // "nom = Clavier"
-  // "prix = 49.99"
-  // "stock = 12"
+// ────────────────────────────────
+// Transformer les valeurs
+// ────────────────────────────────
+const prix = { pomme: 1.2, banane: 0.8, cerise: 3.5 };
+
+// Appliquer +10% sur tous les prix
+const prixMajores = Object.fromEntries(
+  Object.entries(prix).map(([fruit, p]) => [fruit, +(p * 1.1).toFixed(2)])
+);
+// { pomme: 1.32, banane: 0.88, cerise: 3.85 }
+
+// Filtrer les propriétés
+const produitsChersPrix = Object.fromEntries(
+  Object.entries(prix).filter(([, p]) => p > 1)
+);
+// { pomme: 1.2, cerise: 3.5 }
+
+// ────────────────────────────────
+// Object.assign
+// ────────────────────────────────
+const config = { theme: "dark", lang: "fr" };
+const extras = { lang: "en", debug: true };
+
+// ⚠️ Mute config !
+Object.assign(config, extras);
+// config → { theme: "dark", lang: "en", debug: true }
+
+// ✅ Sans mutation : utilise spread
+const newConfig = Object.assign({}, config, extras);
+
+// ────────────────────────────────
+// Copie profonde
+// ────────────────────────────────
+const original = {
+  user: { name: "Pierre", address: { city: "Paris" } }
+};
+
+// Spread : copie superficielle — address partagée !
+const superficielle = { ...original };
+superficielle.user.address.city = "Lyon"; // ← touche aussi original !
+
+// structuredClone : copie profonde ✅
+const profonde = structuredClone(original);
+profonde.user.address.city = "Marseille"; // original intact
+
+// ────────────────────────────────
+// Object.freeze — objet immuable
+// ────────────────────────────────
+const CONSTANTES = Object.freeze({
+  MAX_RETRIES: 3,
+  TIMEOUT_MS:  5000,
+  API_VERSION: "v2"
 });
 
-// Shorthand ES6 — si la variable et la clé ont le même nom
-const nom  = "Alice";
-const age2 = 30;
-const personne = { nom, age: age2 }; // { nom: "Alice", age: 30 }`
+// CONSTANTES.MAX_RETRIES = 99; // ← silencieux en mode normal, erreur en strict mode
+console.log(CONSTANTES.MAX_RETRIES); // toujours 3`
       },
       {
         title: "Promesses & async/await",
