@@ -10,71 +10,113 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
+  <!-- ══════════════ HEADER ══════════════ -->
   <header class="header">
-    <div class="header-inner">
-      <div class="header-brand">
-        <span class="header-logo">⚔️</span>
-        <h1>CodeQuest</h1>
-      </div>
-      <nav class="app-tabs">
-        <button id="tabMissions" class="app-tab active">🎯 Missions</button>
-        <button id="tabCours"    class="app-tab">📚 Cours</button>
-      </nav>
+    <div class="header-brand">
+      <span class="header-logo">⚔️</span>
+      <span class="header-title">Code<strong>Quest</strong></span>
     </div>
+    <nav class="app-tabs">
+      <button id="tabMissions" class="app-tab active">🎯 Missions</button>
+      <button id="tabCours"    class="app-tab">📚 Cours</button>
+    </nav>
+    <div class="header-right"><!-- espace vide pour centrer les tabs --></div>
   </header>
 
-  <!-- ===== VUE MISSIONS ===== -->
-  <main id="viewMissions" class="layout">
-    <aside class="sidebar">
-      <h3>Tracks</h3>
-      <ul id="tracks" class="tracks">
-        <li data-track="html"    class="active">🌐 HTML</li>
-        <li data-track="css">🎨 CSS</li>
-        <li data-track="js">⚡ JS</li>
-        <li data-track="ts">🔷 TS</li>
-        <li data-track="angular">🔺 Angular</li>
-        <li data-track="node">🟢 Node</li>
-      </ul>
-      <h3>Missions</h3>
-      <ul id="missionsList" class="missions"></ul>
-    </aside>
+  <!-- ══════════════ APP BODY ══════════════ -->
+  <div class="app-body">
 
-    <section class="card">
-      <h2 id="title">Choisis une mission</h2>
-      <pre id="statement" class="statement"></pre>
-      <label for="code" class="label">Ton code :</label>
-      <textarea id="code" class="editor"></textarea>
-      <div class="actions">
-        <button id="btnTest" class="btn">▶ Tester</button>
-      </div>
-      <div id="result" class="result"></div>
-    </section>
-  </main>
+    <!-- ───── VUE MISSIONS ───── -->
+    <div id="viewMissions" class="view">
 
-  <!-- ===== VUE COURS ===== -->
-  <main id="viewCours" class="layout hidden">
-    <aside class="sidebar">
-      <h3>Tracks</h3>
-      <ul id="courseTracks" class="tracks">
-        <li data-course="html"    class="active">🌐 HTML</li>
-        <li data-course="css">🎨 CSS</li>
-        <li data-course="js">⚡ JavaScript</li>
-        <li data-course="angular">🔺 Angular</li>
-        <li data-course="node">🟢 Node.js</li>
-      </ul>
-      <h3>Chapitres</h3>
-      <ul id="chaptersList" class="missions"></ul>
-    </aside>
+      <aside class="sidebar">
+        <div class="sidebar-section">
+          <p class="sidebar-label">Track</p>
+          <ul id="tracks" class="tracks">
+            <li data-track="html"    class="active"><span class="track-icon">🌐</span> HTML</li>
+            <li data-track="css">   <span class="track-icon">🎨</span> CSS</li>
+            <li data-track="js">    <span class="track-icon">⚡</span> JavaScript</li>
+            <li data-track="ts">    <span class="track-icon">🔷</span> TypeScript</li>
+            <li data-track="angular"><span class="track-icon">🔺</span> Angular</li>
+            <li data-track="node">  <span class="track-icon">🟢</span> Node.js</li>
+          </ul>
+        </div>
+        <div class="sidebar-section">
+          <p class="sidebar-label" id="missionsLabel">Missions — HTML</p>
+          <ul id="missionsList" class="missions"></ul>
+        </div>
+      </aside>
 
-    <section class="course-content card">
-      <div id="courseBody">
-        <div class="course-welcome">
-          <h2>Bienvenue dans les cours 📚</h2>
-          <p>Sélectionne un chapitre dans la barre latérale pour commencer à apprendre.</p>
+      <div class="content">
+        <!-- Écran d'accueil (avant sélection) -->
+        <div id="missionWelcome" class="panel-welcome">
+          <div class="welcome-icon">⚔️</div>
+          <h2>Prêt à coder ?</h2>
+          <p>Choisis un <strong>track</strong> puis une <strong>mission</strong> dans la barre latérale.</p>
+          <div class="welcome-tracks">
+            <span>🌐 HTML</span><span>🎨 CSS</span><span>⚡ JS</span>
+            <span>🔷 TS</span><span>🔺 Angular</span><span>🟢 Node</span>
+          </div>
+        </div>
+
+        <!-- Contenu mission (affiché après sélection) -->
+        <div id="missionContent" class="hidden">
+          <div class="mission-header">
+            <div class="mission-badges">
+              <span id="missionTrackBadge" class="badge badge-track"></span>
+              <span id="missionDiffBadge"  class="badge badge-diff"></span>
+            </div>
+            <h2 id="title" class="mission-title"></h2>
+          </div>
+
+          <div id="statement" class="statement"></div>
+
+          <label for="code" class="label">✏️ Ton code</label>
+          <textarea id="code" class="editor" spellcheck="false"></textarea>
+
+          <div class="actions">
+            <button id="btnTest" class="btn">▶ Tester</button>
+          </div>
+          <div id="result" class="result hidden"></div>
         </div>
       </div>
-    </section>
-  </main>
+
+    </div><!-- /viewMissions -->
+
+    <!-- ───── VUE COURS ───── -->
+    <div id="viewCours" class="view hidden">
+
+      <aside class="sidebar">
+        <div class="sidebar-section">
+          <p class="sidebar-label">Track</p>
+          <ul id="courseTracks" class="tracks">
+            <li data-course="html"    class="active"><span class="track-icon">🌐</span> HTML</li>
+            <li data-course="css">    <span class="track-icon">🎨</span> CSS</li>
+            <li data-course="js">     <span class="track-icon">⚡</span> JavaScript</li>
+            <li data-course="angular"><span class="track-icon">🔺</span> Angular</li>
+            <li data-course="node">   <span class="track-icon">🟢</span> Node.js</li>
+          </ul>
+        </div>
+        <div class="sidebar-section">
+          <p class="sidebar-label">Chapitres</p>
+          <ul id="chaptersList" class="missions"></ul>
+        </div>
+      </aside>
+
+      <div class="content course-content">
+        <div id="courseBody">
+          <div class="panel-welcome">
+            <div class="welcome-icon">📚</div>
+            <h2>Bienvenue dans les cours</h2>
+            <p>Sélectionne un <strong>chapitre</strong> dans la barre latérale pour commencer à apprendre.</p>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /viewCours -->
+
+  </div><!-- /app-body -->
 
   <script type="module" src="app.js"></script>
 </body>

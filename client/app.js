@@ -3,13 +3,18 @@
 const API = "http://localhost:3000";
 
 // ── Mission elements ──────────────────────────────────────
-const titleEl        = document.getElementById("title");
-const statementEl    = document.getElementById("statement");
-const codeEl         = document.getElementById("code");
-const resultEl       = document.getElementById("result");
-const btnTest        = document.getElementById("btnTest");
-const tracksEl       = document.getElementById("tracks");
-const missionsListEl = document.getElementById("missionsList");
+const titleEl          = document.getElementById("title");
+const statementEl      = document.getElementById("statement");
+const codeEl           = document.getElementById("code");
+const resultEl         = document.getElementById("result");
+const btnTest          = document.getElementById("btnTest");
+const tracksEl         = document.getElementById("tracks");
+const missionsListEl   = document.getElementById("missionsList");
+const missionsLabelEl  = document.getElementById("missionsLabel");
+const missionWelcomeEl = document.getElementById("missionWelcome");
+const missionContentEl = document.getElementById("missionContent");
+const trackBadgeEl     = document.getElementById("missionTrackBadge");
+const diffBadgeEl      = document.getElementById("missionDiffBadge");
 
 // ── View elements ─────────────────────────────────────────
 const tabMissions   = document.getElementById("tabMissions");
@@ -27,6 +32,17 @@ let currentMissionId    = null;
 let allMissions         = [];
 let currentCourseTrack  = "html";
 let currentChapterIndex = 0;
+
+const TRACK_LABELS = {
+  html: "🌐 HTML", css: "🎨 CSS", js: "⚡ JS",
+  ts: "🔷 TypeScript", angular: "🔺 Angular", node: "🟢 Node"
+};
+
+const DIFF_LABELS = {
+  easy:   { label: "🟢 Débutant",       cls: "badge-diff-easy" },
+  medium: { label: "🟡 Intermédiaire",  cls: "badge-diff-medium" },
+  hard:   { label: "🔴 Avancé",         cls: "badge-diff-hard" }
+};
 
 // ══════════════════════════════════════════════════════════
 // TAB NAVIGATION
@@ -58,10 +74,18 @@ function renderMissions(track) {
   missionsListEl.innerHTML = "";
   const missions = allMissions.filter(m => m.track === track);
 
-  missions.forEach(m => {
+  // Update sidebar label
+  if (missionsLabelEl) {
+    missionsLabelEl.textContent = `Missions — ${TRACK_LABELS[track] ?? track.toUpperCase()}`;
+  }
+
+  missions.forEach((m, idx) => {
     const li = document.createElement("li");
-    const diffIcon = { easy: "🟢", medium: "🟡", hard: "🔴" }[m.difficulty] || "";
-    li.innerHTML = `<span class="mission-diff">${diffIcon}</span> ${m.title}`;
+    const diffDot = { easy: "🟢", medium: "🟡", hard: "🔴" }[m.difficulty] || "";
+    li.innerHTML = `
+      <span class="mission-num">${String(idx + 1).padStart(2, "0")}</span>
+      <span class="mission-name">${m.title}</span>
+      <span class="diff-dot">${diffDot}</span>`;
     li.dataset.id = m.id;
 
     li.addEventListener("click", async () => {
@@ -77,32 +101,59 @@ function renderMissions(track) {
   if (missions.length > 0) {
     missionsListEl.querySelector("li")?.click();
   } else {
-    titleEl.textContent = "Aucune mission";
-    statementEl.textContent = "";
-    codeEl.value = "";
-    resultEl.innerHTML = "";
+    showWelcome();
   }
+}
+
+function showWelcome() {
+  missionWelcomeEl.classList.remove("hidden");
+  missionContentEl.classList.add("hidden");
 }
 
 async function loadMission(id) {
   const res = await fetch(`${API}/api/missions/${id}`);
   const mission = await res.json();
+
+  // Show content, hide welcome
+  missionWelcomeEl.classList.add("hidden");
+  missionContentEl.classList.remove("hidden");
+
+  // Title
   titleEl.textContent = mission.title;
-  statementEl.textContent = mission.statement;
+
+  // Track badge
+  trackBadgeEl.textContent = TRACK_LABELS[mission.track] ?? mission.track;
+  trackBadgeEl.className = "badge badge-track";
+
+  // Difficulty badge
+  const diff = DIFF_LABELS[mission.difficulty];
+  if (diff) {
+    diffBadgeEl.textContent = diff.label;
+    diffBadgeEl.className = `badge ${diff.cls}`;
+  }
+
+  // Statement (HTML)
+  statementEl.innerHTML = mission.statement;
+
+  // Code
   codeEl.value = mission.starterCode || "";
+
+  // Reset result
   resultEl.innerHTML = "";
+  resultEl.classList.add("hidden");
 }
 
 function renderResult(data) {
+  resultEl.classList.remove("hidden");
   if (data.error) {
     resultEl.innerHTML = `<div class="ko">❌ ${data.error}</div>`;
     return;
   }
   const header = data.ok
-    ? `<div class="ok">✅ Tout est bon !</div>`
+    ? `<div class="ok">✅ Toutes les épreuves passées !</div>`
     : `<div class="ko">❌ Certains tests échouent.</div>`;
   const list = (data.results || [])
-    .map(r => `<li>${r.passed ? "✅" : "❌"} ${r.name}</li>`)
+    .map(r => `<li class="${r.passed ? 'passed' : ''}">${r.passed ? "✅" : "❌"} ${r.name}</li>`)
     .join("");
   resultEl.innerHTML = header + "<ul>" + list + "</ul>";
 }
